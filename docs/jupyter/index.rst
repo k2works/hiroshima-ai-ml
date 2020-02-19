@@ -7,6 +7,13 @@ Welcome to ToyBox documentation!
 ========================================
 .. toctree::
    :maxdepth: 1
+   :caption: Kaggle
+   :numbered:
+
+   /titanic/index
+
+.. toctree::
+   :maxdepth: 1
    :caption: サンプル
    :numbered:
 
