@@ -1,0 +1,7876 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="ja" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="ja" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>7. Pandas基本操作 &mdash; ToyBox 1.0.0 ドキュメント</title>
+  
+
+  
+  
+  
+  
+
+  
+  <script type="text/javascript" src="../_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+        <script src="../_static/jquery.js"></script>
+        <script src="../_static/underscore.js"></script>
+        <script src="../_static/doctools.js"></script>
+        <script src="../_static/language_data.js"></script>
+        <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+        <script src="../_static/translations.js"></script>
+    
+    <script type="text/javascript" src="../_static/js/theme.js"></script>
+
+    
+
+  
+  <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <link rel="index" title="索引" href="../genindex.html" />
+    <link rel="search" title="検索" href="../search.html" />
+    <link rel="prev" title="6. グラフを表示する" href="graph.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../index.html" class="icon icon-home"> ToyBox
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Kaggle</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../kaggle/titanic/index.html">1. タイタニック</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../kaggle/titanic/tutorial.html">2. タイタニックチュートリアル</a></li>
+</ul>
+<p class="caption"><span class="caption-text">サンプル</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="Fibonacci.html">1. Fibonacci</a></li>
+<li class="toctree-l1"><a class="reference internal" href="FibonacciJavaScript.html">2. Fibonacci(JavaScript)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="TestingAndDebugging.html">3. Testing and Debugging Jupyter Notebooks</a></li>
+<li class="toctree-l1"><a class="reference internal" href="tdd.html">4. PythonでTDD</a></li>
+<li class="toctree-l1"><a class="reference internal" href="uml.html">5. UML</a></li>
+<li class="toctree-l1"><a class="reference internal" href="graph.html">6. グラフを表示する</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">7. Pandas基本操作</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#Pythonのバージョン確認、モジュールのimport、データの読み込み">7.1. Pythonのバージョン確認、モジュールのimport、データの読み込み</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#簡単にデータの状態を確認する">7.2. 簡単にデータの状態を確認する</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#データの整形">7.3. データの整形</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#データの欠損状態の確認">7.4. データの欠損状態の確認</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#値(欠損)の置き換えや削除">7.5. 値(欠損)の置き換えや削除</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#集計">7.6. 集計</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#可視化">7.7. 可視化</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#変数の前処理">7.8. 変数の前処理</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#最後に、出来たデータをもう一度眺める">7.9. 最後に、出来たデータをもう一度眺める</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#参照">7.10. 参照</a></li>
+</ul>
+</li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">ToyBox</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../index.html">Docs</a> &raquo;</li>
+        
+      <li><span class="section-number">7. </span>Pandas基本操作</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="../_sources/sample/pandas.ipynb.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  
+<style>
+/* CSS for nbsphinx extension */
+
+/* remove conflicting styling from Sphinx themes */
+div.nbinput.container,
+div.nbinput.container div.prompt,
+div.nbinput.container div.input_area,
+div.nbinput.container div[class*=highlight],
+div.nbinput.container div[class*=highlight] pre,
+div.nboutput.container,
+div.nboutput.container div.prompt,
+div.nboutput.container div.output_area,
+div.nboutput.container div[class*=highlight],
+div.nboutput.container div[class*=highlight] pre {
+    background: none;
+    border: none;
+    padding: 0 0;
+    margin: 0;
+    box-shadow: none;
+}
+
+/* avoid gaps between output lines */
+div.nboutput.container div[class*=highlight] pre {
+    line-height: normal;
+}
+
+/* input/output containers */
+div.nbinput.container,
+div.nboutput.container {
+    display: -webkit-flex;
+    display: flex;
+    align-items: flex-start;
+    margin: 0;
+    width: 100%;
+}
+@media (max-width: 540px) {
+    div.nbinput.container,
+    div.nboutput.container {
+        flex-direction: column;
+    }
+}
+
+/* input container */
+div.nbinput.container {
+    padding-top: 5px;
+}
+
+/* last container */
+div.nblast.container {
+    padding-bottom: 5px;
+}
+
+/* input prompt */
+div.nbinput.container div.prompt pre {
+    color: #307FC1;
+}
+
+/* output prompt */
+div.nboutput.container div.prompt pre {
+    color: #BF5B3D;
+}
+
+/* all prompts */
+div.nbinput.container div.prompt,
+div.nboutput.container div.prompt {
+    min-width: 5ex;
+    padding-top: 0.3rem;
+    padding-right: 0.3rem;
+    text-align: right;
+    flex: 0;
+}
+@media (max-width: 540px) {
+    div.nbinput.container div.prompt,
+    div.nboutput.container div.prompt {
+        text-align: left;
+        padding: 0.4em;
+    }
+    div.nboutput.container div.prompt.empty {
+        padding: 0;
+    }
+}
+
+/* disable scrollbars on prompts */
+div.nbinput.container div.prompt pre,
+div.nboutput.container div.prompt pre {
+    overflow: hidden;
+}
+
+/* input/output area */
+div.nbinput.container div.input_area,
+div.nboutput.container div.output_area {
+    -webkit-flex: 1;
+    flex: 1;
+    overflow: auto;
+}
+@media (max-width: 540px) {
+    div.nbinput.container div.input_area,
+    div.nboutput.container div.output_area {
+        width: 100%;
+    }
+}
+
+/* input area */
+div.nbinput.container div.input_area {
+    border: 1px solid #e0e0e0;
+    border-radius: 2px;
+    background: #f5f5f5;
+}
+
+/* override MathJax center alignment in output cells */
+div.nboutput.container div[class*=MathJax] {
+    text-align: left !important;
+}
+
+/* override sphinx.ext.imgmath center alignment in output cells */
+div.nboutput.container div.math p {
+    text-align: left;
+}
+
+/* standard error */
+div.nboutput.container div.output_area.stderr {
+    background: #fdd;
+}
+
+/* ANSI colors */
+.ansi-black-fg { color: #3E424D; }
+.ansi-black-bg { background-color: #3E424D; }
+.ansi-black-intense-fg { color: #282C36; }
+.ansi-black-intense-bg { background-color: #282C36; }
+.ansi-red-fg { color: #E75C58; }
+.ansi-red-bg { background-color: #E75C58; }
+.ansi-red-intense-fg { color: #B22B31; }
+.ansi-red-intense-bg { background-color: #B22B31; }
+.ansi-green-fg { color: #00A250; }
+.ansi-green-bg { background-color: #00A250; }
+.ansi-green-intense-fg { color: #007427; }
+.ansi-green-intense-bg { background-color: #007427; }
+.ansi-yellow-fg { color: #DDB62B; }
+.ansi-yellow-bg { background-color: #DDB62B; }
+.ansi-yellow-intense-fg { color: #B27D12; }
+.ansi-yellow-intense-bg { background-color: #B27D12; }
+.ansi-blue-fg { color: #208FFB; }
+.ansi-blue-bg { background-color: #208FFB; }
+.ansi-blue-intense-fg { color: #0065CA; }
+.ansi-blue-intense-bg { background-color: #0065CA; }
+.ansi-magenta-fg { color: #D160C4; }
+.ansi-magenta-bg { background-color: #D160C4; }
+.ansi-magenta-intense-fg { color: #A03196; }
+.ansi-magenta-intense-bg { background-color: #A03196; }
+.ansi-cyan-fg { color: #60C6C8; }
+.ansi-cyan-bg { background-color: #60C6C8; }
+.ansi-cyan-intense-fg { color: #258F8F; }
+.ansi-cyan-intense-bg { background-color: #258F8F; }
+.ansi-white-fg { color: #C5C1B4; }
+.ansi-white-bg { background-color: #C5C1B4; }
+.ansi-white-intense-fg { color: #A1A6B2; }
+.ansi-white-intense-bg { background-color: #A1A6B2; }
+
+.ansi-default-inverse-fg { color: #FFFFFF; }
+.ansi-default-inverse-bg { background-color: #000000; }
+
+.ansi-bold { font-weight: bold; }
+.ansi-underline { text-decoration: underline; }
+
+
+div.nbinput.container div.input_area div[class*=highlight] > pre,
+div.nboutput.container div.output_area div[class*=highlight] > pre,
+div.nboutput.container div.output_area div[class*=highlight].math,
+div.nboutput.container div.output_area.rendered_html,
+div.nboutput.container div.output_area > div.output_javascript,
+div.nboutput.container div.output_area:not(.rendered_html) > img{
+    padding: 0.3rem;
+}
+
+/* fix copybtn overflow problem in chromium (needed for 'sphinx_copybutton') */
+div.nbinput.container div.input_area > div[class^='highlight'],
+div.nboutput.container div.output_area > div[class^='highlight']{
+    overflow-y: hidden;
+}
+
+/* hide copybtn icon on prompts (needed for 'sphinx_copybutton') */
+.prompt a.copybtn {
+    display: none;
+}
+
+/* Some additional styling taken form the Jupyter notebook CSS */
+div.rendered_html table {
+  border: none;
+  border-collapse: collapse;
+  border-spacing: 0;
+  color: black;
+  font-size: 12px;
+  table-layout: fixed;
+}
+div.rendered_html thead {
+  border-bottom: 1px solid black;
+  vertical-align: bottom;
+}
+div.rendered_html tr,
+div.rendered_html th,
+div.rendered_html td {
+  text-align: right;
+  vertical-align: middle;
+  padding: 0.5em 0.5em;
+  line-height: normal;
+  white-space: normal;
+  max-width: none;
+  border: none;
+}
+div.rendered_html th {
+  font-weight: bold;
+}
+div.rendered_html tbody tr:nth-child(odd) {
+  background: #f5f5f5;
+}
+div.rendered_html tbody tr:hover {
+  background: rgba(66, 165, 245, 0.2);
+}
+
+/* CSS overrides for sphinx_rtd_theme */
+
+/* 24px margin */
+.nbinput.nblast.container,
+.nboutput.nblast.container {
+    margin-bottom: 19px;  /* padding has already 5px */
+}
+
+/* ... except between code cells! */
+.nblast.container + .nbinput.container {
+    margin-top: -19px;
+}
+
+.admonition > p:before {
+    margin-right: 4px;  /* make room for the exclamation icon */
+}
+
+/* Fix math alignment, see https://github.com/rtfd/sphinx_rtd_theme/pull/686 */
+.math {
+    text-align: unset;
+}
+</style>
+<div class="section" id="Pandas基本操作">
+<h1><span class="section-number">7. </span>Pandas基本操作<a class="headerlink" href="#Pandas基本操作" title="このヘッドラインへのパーマリンク">¶</a></h1>
+<div class="section" id="Pythonのバージョン確認、モジュールのimport、データの読み込み">
+<h2><span class="section-number">7.1. </span>Pythonのバージョン確認、モジュールのimport、データの読み込み<a class="headerlink" href="#Pythonのバージョン確認、モジュールのimport、データの読み込み" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[62]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="o">!</span>python -V
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+Python 3.7.0
+</pre></div></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[63]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+<span class="kn">import</span> <span class="nn">japanize_matplotlib</span>
+
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+Requirement already satisfied: japanize-matplotlib in /root/.pyenv/versions/3.7.0/lib/python3.7/site-packages (1.0.5)
+</pre></div></div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[64]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s1">&#39;./data/lunch_box.csv&#39;</span><span class="p">,</span> <span class="n">sep</span><span class="o">=</span><span class="s1">&#39;,&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[65]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="n">df</span><span class="o">.</span><span class="n">head</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[65]:
+</pre></div>
+</div>
+<div class="output_area rendered_html docutils container">
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>datetime</th>
+      <th>y</th>
+      <th>week</th>
+      <th>soldout</th>
+      <th>name</th>
+      <th>kcal</th>
+      <th>remarks</th>
+      <th>event</th>
+      <th>payday</th>
+      <th>weather</th>
+      <th>precipitation</th>
+      <th>temperature</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>2013-11-18</td>
+      <td>90</td>
+      <td>月</td>
+      <td>0</td>
+      <td>厚切りイカフライ</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>快晴</td>
+      <td>--</td>
+      <td>19.8</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>2013-11-19</td>
+      <td>101</td>
+      <td>火</td>
+      <td>1</td>
+      <td>手作りヒレカツ</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>快晴</td>
+      <td>--</td>
+      <td>17.0</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>2013-11-20</td>
+      <td>118</td>
+      <td>水</td>
+      <td>0</td>
+      <td>白身魚唐揚げ野菜あん</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>快晴</td>
+      <td>--</td>
+      <td>15.5</td>
+    </tr>
+  </tbody>
+</table>
+</div></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[66]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="n">df</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[66]:
+</pre></div>
+</div>
+<div class="output_area rendered_html docutils container">
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>datetime</th>
+      <th>y</th>
+      <th>week</th>
+      <th>soldout</th>
+      <th>name</th>
+      <th>kcal</th>
+      <th>remarks</th>
+      <th>event</th>
+      <th>payday</th>
+      <th>weather</th>
+      <th>precipitation</th>
+      <th>temperature</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>2013-11-18</td>
+      <td>90</td>
+      <td>月</td>
+      <td>0</td>
+      <td>厚切りイカフライ</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>快晴</td>
+      <td>--</td>
+      <td>19.8</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>2013-11-19</td>
+      <td>101</td>
+      <td>火</td>
+      <td>1</td>
+      <td>手作りヒレカツ</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>快晴</td>
+      <td>--</td>
+      <td>17.0</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>2013-11-20</td>
+      <td>118</td>
+      <td>水</td>
+      <td>0</td>
+      <td>白身魚唐揚げ野菜あん</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>快晴</td>
+      <td>--</td>
+      <td>15.5</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>2013-11-21</td>
+      <td>120</td>
+      <td>木</td>
+      <td>1</td>
+      <td>若鶏ピリ辛焼</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>快晴</td>
+      <td>--</td>
+      <td>15.2</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>2013-11-22</td>
+      <td>130</td>
+      <td>金</td>
+      <td>1</td>
+      <td>ビッグメンチカツ</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>快晴</td>
+      <td>--</td>
+      <td>16.1</td>
+    </tr>
+  </tbody>
+</table>
+</div></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[67]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="n">df</span><span class="o">.</span><span class="n">tail</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[67]:
+</pre></div>
+</div>
+<div class="output_area rendered_html docutils container">
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>datetime</th>
+      <th>y</th>
+      <th>week</th>
+      <th>soldout</th>
+      <th>name</th>
+      <th>kcal</th>
+      <th>remarks</th>
+      <th>event</th>
+      <th>payday</th>
+      <th>weather</th>
+      <th>precipitation</th>
+      <th>temperature</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>202</th>
+      <td>2014-9-24</td>
+      <td>59</td>
+      <td>水</td>
+      <td>1</td>
+      <td>白身魚のマスタード焼き</td>
+      <td>408.0</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>曇</td>
+      <td>0</td>
+      <td>24.8</td>
+    </tr>
+    <tr>
+      <th>203</th>
+      <td>2014-9-25</td>
+      <td>50</td>
+      <td>木</td>
+      <td>0</td>
+      <td>牛カルビ焼き肉</td>
+      <td>394.0</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>曇</td>
+      <td>0</td>
+      <td>25.4</td>
+    </tr>
+    <tr>
+      <th>204</th>
+      <td>2014-9-26</td>
+      <td>45</td>
+      <td>金</td>
+      <td>0</td>
+      <td>ランチビュッフェ</td>
+      <td>NaN</td>
+      <td>スペシャルメニュー（800円）</td>
+      <td>キャリアアップ支援セミナー</td>
+      <td>NaN</td>
+      <td>晴れ</td>
+      <td>--</td>
+      <td>27.1</td>
+    </tr>
+    <tr>
+      <th>205</th>
+      <td>2014-9-29</td>
+      <td>56</td>
+      <td>月</td>
+      <td>1</td>
+      <td>豚肉と玉子の炒め</td>
+      <td>404.0</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>快晴</td>
+      <td>--</td>
+      <td>26.6</td>
+    </tr>
+    <tr>
+      <th>206</th>
+      <td>2014-9-30</td>
+      <td>40</td>
+      <td>火</td>
+      <td>0</td>
+      <td>鶏肉とカシューナッツ炒め</td>
+      <td>398.0</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>快晴</td>
+      <td>--</td>
+      <td>28.1</td>
+    </tr>
+  </tbody>
+</table>
+</div></div>
+</div>
+</div>
+<div class="section" id="簡単にデータの状態を確認する">
+<h2><span class="section-number">7.2. </span>簡単にデータの状態を確認する<a class="headerlink" href="#簡単にデータの状態を確認する" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[68]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="nb">print</span><span class="p">(</span><span class="s1">&#39;dataframeの行数・列数の確認==&gt;</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">,</span> <span class="n">df</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;indexの確認==&gt;</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">,</span> <span class="n">df</span><span class="o">.</span><span class="n">index</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;columnの確認==&gt;</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">,</span> <span class="n">df</span><span class="o">.</span><span class="n">columns</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;dataframeの各列のデータ型を確認==&gt;</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">,</span> <span class="n">df</span><span class="o">.</span><span class="n">dtypes</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+dataframeの行数・列数の確認==&gt;
+ (207, 12)
+indexの確認==&gt;
+ RangeIndex(start=0, stop=207, step=1)
+columnの確認==&gt;
+ Index([&#39;datetime&#39;, &#39;y&#39;, &#39;week&#39;, &#39;soldout&#39;, &#39;name&#39;, &#39;kcal&#39;, &#39;remarks&#39;, &#39;event&#39;,
+       &#39;payday&#39;, &#39;weather&#39;, &#39;precipitation&#39;, &#39;temperature&#39;],
+      dtype=&#39;object&#39;)
+dataframeの各列のデータ型を確認==&gt;
+ datetime          object
+y                  int64
+week              object
+soldout            int64
+name              object
+kcal             float64
+remarks           object
+event             object
+payday           float64
+weather           object
+precipitation     object
+temperature      float64
+dtype: object
+</pre></div></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[69]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="n">df</span><span class="p">[[</span><span class="s1">&#39;name&#39;</span><span class="p">,</span><span class="s1">&#39;kcal&#39;</span><span class="p">]]</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[69]:
+</pre></div>
+</div>
+<div class="output_area rendered_html docutils container">
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>name</th>
+      <th>kcal</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>厚切りイカフライ</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>手作りヒレカツ</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>白身魚唐揚げ野菜あん</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>若鶏ピリ辛焼</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>ビッグメンチカツ</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <th>...</th>
+      <td>...</td>
+      <td>...</td>
+    </tr>
+    <tr>
+      <th>202</th>
+      <td>白身魚のマスタード焼き</td>
+      <td>408.0</td>
+    </tr>
+    <tr>
+      <th>203</th>
+      <td>牛カルビ焼き肉</td>
+      <td>394.0</td>
+    </tr>
+    <tr>
+      <th>204</th>
+      <td>ランチビュッフェ</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <th>205</th>
+      <td>豚肉と玉子の炒め</td>
+      <td>404.0</td>
+    </tr>
+    <tr>
+      <th>206</th>
+      <td>鶏肉とカシューナッツ炒め</td>
+      <td>398.0</td>
+    </tr>
+  </tbody>
+</table>
+<p>207 rows × 2 columns</p>
+</div></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[70]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="n">df</span><span class="p">[</span><span class="mi">100</span><span class="p">:</span><span class="mi">106</span><span class="p">]</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[70]:
+</pre></div>
+</div>
+<div class="output_area rendered_html docutils container">
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>datetime</th>
+      <th>y</th>
+      <th>week</th>
+      <th>soldout</th>
+      <th>name</th>
+      <th>kcal</th>
+      <th>remarks</th>
+      <th>event</th>
+      <th>payday</th>
+      <th>weather</th>
+      <th>precipitation</th>
+      <th>temperature</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>100</th>
+      <td>2014-4-22</td>
+      <td>78</td>
+      <td>火</td>
+      <td>1</td>
+      <td>マーボ豆腐</td>
+      <td>382.0</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>曇</td>
+      <td>--</td>
+      <td>18.8</td>
+    </tr>
+    <tr>
+      <th>101</th>
+      <td>2014-4-23</td>
+      <td>63</td>
+      <td>水</td>
+      <td>0</td>
+      <td>手作りひれかつ</td>
+      <td>340.0</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>快晴</td>
+      <td>--</td>
+      <td>19.4</td>
+    </tr>
+    <tr>
+      <th>102</th>
+      <td>2014-4-24</td>
+      <td>56</td>
+      <td>木</td>
+      <td>1</td>
+      <td>鶏の照り焼きマヨ</td>
+      <td>360.0</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>晴れ</td>
+      <td>--</td>
+      <td>19.9</td>
+    </tr>
+    <tr>
+      <th>103</th>
+      <td>2014-4-25</td>
+      <td>80</td>
+      <td>金</td>
+      <td>0</td>
+      <td>中華丼</td>
+      <td>NaN</td>
+      <td>お楽しみメニュー</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>晴れ</td>
+      <td>--</td>
+      <td>20.8</td>
+    </tr>
+    <tr>
+      <th>104</th>
+      <td>2014-4-28</td>
+      <td>54</td>
+      <td>月</td>
+      <td>0</td>
+      <td>タンドリーチキン</td>
+      <td>342.0</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>晴れ</td>
+      <td>--</td>
+      <td>22.7</td>
+    </tr>
+    <tr>
+      <th>105</th>
+      <td>2014-4-30</td>
+      <td>97</td>
+      <td>水</td>
+      <td>1</td>
+      <td>豚味噌メンチカツ</td>
+      <td>368.0</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>雨</td>
+      <td>0.5</td>
+      <td>17.5</td>
+    </tr>
+  </tbody>
+</table>
+</div></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[71]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="n">df</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="mi">100</span><span class="p">]</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[71]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+datetime         2014-4-22
+y                       78
+week                     火
+soldout                  1
+name                 マーボ豆腐
+kcal                   382
+remarks                NaN
+event                  NaN
+payday                 NaN
+weather                  曇
+precipitation           --
+temperature           18.8
+Name: 100, dtype: object
+</pre></div></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[72]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="n">df</span><span class="o">.</span><span class="n">iloc</span><span class="p">[[</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">4</span><span class="p">],[</span><span class="mi">0</span><span class="p">,</span><span class="mi">2</span><span class="p">]]</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[72]:
+</pre></div>
+</div>
+<div class="output_area rendered_html docutils container">
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>datetime</th>
+      <th>week</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>1</th>
+      <td>2013-11-19</td>
+      <td>火</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>2013-11-20</td>
+      <td>水</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>2013-11-22</td>
+      <td>金</td>
+    </tr>
+  </tbody>
+</table>
+</div></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[73]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="n">df</span><span class="p">[[</span><span class="s1">&#39;name&#39;</span><span class="p">,</span><span class="s1">&#39;kcal&#39;</span><span class="p">]]</span><span class="o">.</span><span class="n">query</span><span class="p">(</span><span class="s1">&#39;kcal &gt; 450 and name == &quot;豚肉の生姜焼&quot;&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[73]:
+</pre></div>
+</div>
+<div class="output_area rendered_html docutils container">
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>name</th>
+      <th>kcal</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>29</th>
+      <td>豚肉の生姜焼</td>
+      <td>462.0</td>
+    </tr>
+  </tbody>
+</table>
+</div></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[74]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="n">df</span><span class="p">[</span><span class="s1">&#39;remarks&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">unique</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[74]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+array([nan, &#39;鶏のレモンペッパー焼（50食）、カレー（42食）&#39;, &#39;酢豚（28食）、カレー（85食）&#39;, &#39;お楽しみメニュー&#39;,
+       &#39;料理長のこだわりメニュー&#39;, &#39;手作りの味&#39;, &#39;スペシャルメニュー（800円）&#39;], dtype=object)
+</pre></div></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[75]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="nb">len</span><span class="p">(</span><span class="n">df</span><span class="p">)</span> <span class="o">==</span> <span class="nb">len</span><span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="s1">&#39;datetime&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">unique</span><span class="p">())</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[75]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+True
+</pre></div></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[76]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="n">df</span><span class="o">.</span><span class="n">drop_duplicates</span><span class="p">()</span>
+<span class="n">df</span><span class="o">.</span><span class="n">shape</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[76]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+(207, 12)
+</pre></div></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[77]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="n">df</span><span class="o">.</span><span class="n">describe</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[77]:
+</pre></div>
+</div>
+<div class="output_area rendered_html docutils container">
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>y</th>
+      <th>soldout</th>
+      <th>kcal</th>
+      <th>payday</th>
+      <th>temperature</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>count</th>
+      <td>207.000000</td>
+      <td>207.000000</td>
+      <td>166.000000</td>
+      <td>10.0</td>
+      <td>207.000000</td>
+    </tr>
+    <tr>
+      <th>mean</th>
+      <td>86.623188</td>
+      <td>0.449275</td>
+      <td>404.409639</td>
+      <td>1.0</td>
+      <td>19.252174</td>
+    </tr>
+    <tr>
+      <th>std</th>
+      <td>32.882448</td>
+      <td>0.498626</td>
+      <td>29.884641</td>
+      <td>0.0</td>
+      <td>8.611365</td>
+    </tr>
+    <tr>
+      <th>min</th>
+      <td>29.000000</td>
+      <td>0.000000</td>
+      <td>315.000000</td>
+      <td>1.0</td>
+      <td>1.200000</td>
+    </tr>
+    <tr>
+      <th>25%</th>
+      <td>57.000000</td>
+      <td>0.000000</td>
+      <td>386.000000</td>
+      <td>1.0</td>
+      <td>11.550000</td>
+    </tr>
+    <tr>
+      <th>50%</th>
+      <td>78.000000</td>
+      <td>0.000000</td>
+      <td>408.500000</td>
+      <td>1.0</td>
+      <td>19.800000</td>
+    </tr>
+    <tr>
+      <th>75%</th>
+      <td>113.000000</td>
+      <td>1.000000</td>
+      <td>426.000000</td>
+      <td>1.0</td>
+      <td>26.100000</td>
+    </tr>
+    <tr>
+      <th>max</th>
+      <td>171.000000</td>
+      <td>1.000000</td>
+      <td>462.000000</td>
+      <td>1.0</td>
+      <td>34.600000</td>
+    </tr>
+  </tbody>
+</table>
+</div></div>
+</div>
+</div>
+<div class="section" id="データの整形">
+<h2><span class="section-number">7.3. </span>データの整形<a class="headerlink" href="#データの整形" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[78]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="n">df</span><span class="o">.</span><span class="n">set_index</span><span class="p">(</span><span class="s1">&#39;datetime&#39;</span><span class="p">,</span> <span class="n">inplace</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">df</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[78]:
+</pre></div>
+</div>
+<div class="output_area rendered_html docutils container">
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>y</th>
+      <th>week</th>
+      <th>soldout</th>
+      <th>name</th>
+      <th>kcal</th>
+      <th>remarks</th>
+      <th>event</th>
+      <th>payday</th>
+      <th>weather</th>
+      <th>precipitation</th>
+      <th>temperature</th>
+    </tr>
+    <tr>
+      <th>datetime</th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>2013-11-18</th>
+      <td>90</td>
+      <td>月</td>
+      <td>0</td>
+      <td>厚切りイカフライ</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>快晴</td>
+      <td>--</td>
+      <td>19.8</td>
+    </tr>
+    <tr>
+      <th>2013-11-19</th>
+      <td>101</td>
+      <td>火</td>
+      <td>1</td>
+      <td>手作りヒレカツ</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>快晴</td>
+      <td>--</td>
+      <td>17.0</td>
+    </tr>
+    <tr>
+      <th>2013-11-20</th>
+      <td>118</td>
+      <td>水</td>
+      <td>0</td>
+      <td>白身魚唐揚げ野菜あん</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>快晴</td>
+      <td>--</td>
+      <td>15.5</td>
+    </tr>
+    <tr>
+      <th>2013-11-21</th>
+      <td>120</td>
+      <td>木</td>
+      <td>1</td>
+      <td>若鶏ピリ辛焼</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>快晴</td>
+      <td>--</td>
+      <td>15.2</td>
+    </tr>
+    <tr>
+      <th>2013-11-22</th>
+      <td>130</td>
+      <td>金</td>
+      <td>1</td>
+      <td>ビッグメンチカツ</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>快晴</td>
+      <td>--</td>
+      <td>16.1</td>
+    </tr>
+  </tbody>
+</table>
+</div></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[79]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="n">df</span><span class="o">.</span><span class="n">index</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[79]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+Index([&#39;2013-11-18&#39;, &#39;2013-11-19&#39;, &#39;2013-11-20&#39;, &#39;2013-11-21&#39;, &#39;2013-11-22&#39;,
+       &#39;2013-11-25&#39;, &#39;2013-11-26&#39;, &#39;2013-11-27&#39;, &#39;2013-11-28&#39;, &#39;2013-11-29&#39;,
+       ...
+       &#39;2014-9-16&#39;, &#39;2014-9-17&#39;, &#39;2014-9-18&#39;, &#39;2014-9-19&#39;, &#39;2014-9-22&#39;,
+       &#39;2014-9-24&#39;, &#39;2014-9-25&#39;, &#39;2014-9-26&#39;, &#39;2014-9-29&#39;, &#39;2014-9-30&#39;],
+      dtype=&#39;object&#39;, name=&#39;datetime&#39;, length=207)
+</pre></div></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[80]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="n">df</span><span class="o">.</span><span class="n">rename</span><span class="p">(</span><span class="n">columns</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;y&#39;</span><span class="p">:</span><span class="s1">&#39;sales&#39;</span><span class="p">},</span> <span class="n">inplace</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">df</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[80]:
+</pre></div>
+</div>
+<div class="output_area rendered_html docutils container">
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>sales</th>
+      <th>week</th>
+      <th>soldout</th>
+      <th>name</th>
+      <th>kcal</th>
+      <th>remarks</th>
+      <th>event</th>
+      <th>payday</th>
+      <th>weather</th>
+      <th>precipitation</th>
+      <th>temperature</th>
+    </tr>
+    <tr>
+      <th>datetime</th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>2013-11-18</th>
+      <td>90</td>
+      <td>月</td>
+      <td>0</td>
+      <td>厚切りイカフライ</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>快晴</td>
+      <td>--</td>
+      <td>19.8</td>
+    </tr>
+    <tr>
+      <th>2013-11-19</th>
+      <td>101</td>
+      <td>火</td>
+      <td>1</td>
+      <td>手作りヒレカツ</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>快晴</td>
+      <td>--</td>
+      <td>17.0</td>
+    </tr>
+    <tr>
+      <th>2013-11-20</th>
+      <td>118</td>
+      <td>水</td>
+      <td>0</td>
+      <td>白身魚唐揚げ野菜あん</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>快晴</td>
+      <td>--</td>
+      <td>15.5</td>
+    </tr>
+    <tr>
+      <th>2013-11-21</th>
+      <td>120</td>
+      <td>木</td>
+      <td>1</td>
+      <td>若鶏ピリ辛焼</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>快晴</td>
+      <td>--</td>
+      <td>15.2</td>
+    </tr>
+    <tr>
+      <th>2013-11-22</th>
+      <td>130</td>
+      <td>金</td>
+      <td>1</td>
+      <td>ビッグメンチカツ</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>快晴</td>
+      <td>--</td>
+      <td>16.1</td>
+    </tr>
+  </tbody>
+</table>
+</div></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[81]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="n">df</span><span class="o">.</span><span class="n">sort_values</span><span class="p">(</span><span class="n">by</span><span class="o">=</span><span class="s2">&quot;sales&quot;</span><span class="p">,</span> <span class="n">ascending</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[81]:
+</pre></div>
+</div>
+<div class="output_area rendered_html docutils container">
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>sales</th>
+      <th>week</th>
+      <th>soldout</th>
+      <th>name</th>
+      <th>kcal</th>
+      <th>remarks</th>
+      <th>event</th>
+      <th>payday</th>
+      <th>weather</th>
+      <th>precipitation</th>
+      <th>temperature</th>
+    </tr>
+    <tr>
+      <th>datetime</th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>2014-9-22</th>
+      <td>29</td>
+      <td>月</td>
+      <td>0</td>
+      <td>筑前煮</td>
+      <td>395.0</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>晴れ</td>
+      <td>--</td>
+      <td>25.2</td>
+    </tr>
+    <tr>
+      <th>2014-8-1</th>
+      <td>38</td>
+      <td>金</td>
+      <td>0</td>
+      <td>豚肉の生姜焼き</td>
+      <td>380.0</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>薄曇</td>
+      <td>--</td>
+      <td>32.7</td>
+    </tr>
+    <tr>
+      <th>2014-8-29</th>
+      <td>39</td>
+      <td>金</td>
+      <td>0</td>
+      <td>チキンの辛味噌焼き</td>
+      <td>398.0</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>曇</td>
+      <td>0</td>
+      <td>25.1</td>
+    </tr>
+    <tr>
+      <th>2014-9-30</th>
+      <td>40</td>
+      <td>火</td>
+      <td>0</td>
+      <td>鶏肉とカシューナッツ炒め</td>
+      <td>398.0</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>快晴</td>
+      <td>--</td>
+      <td>28.1</td>
+    </tr>
+    <tr>
+      <th>2014-8-12</th>
+      <td>40</td>
+      <td>火</td>
+      <td>1</td>
+      <td>厚切ハムカツ</td>
+      <td>400.0</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>雨</td>
+      <td>0</td>
+      <td>29.4</td>
+    </tr>
+  </tbody>
+</table>
+</div></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[82]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="n">df</span><span class="o">.</span><span class="n">sort_values</span><span class="p">([</span><span class="s1">&#39;sales&#39;</span><span class="p">,</span> <span class="s1">&#39;temperature&#39;</span><span class="p">],</span> <span class="n">ascending</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[82]:
+</pre></div>
+</div>
+<div class="output_area rendered_html docutils container">
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>sales</th>
+      <th>week</th>
+      <th>soldout</th>
+      <th>name</th>
+      <th>kcal</th>
+      <th>remarks</th>
+      <th>event</th>
+      <th>payday</th>
+      <th>weather</th>
+      <th>precipitation</th>
+      <th>temperature</th>
+    </tr>
+    <tr>
+      <th>datetime</th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>2013-12-5</th>
+      <td>171</td>
+      <td>木</td>
+      <td>0</td>
+      <td>鶏のカッシュナッツ炒め</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>快晴</td>
+      <td>--</td>
+      <td>13.8</td>
+    </tr>
+    <tr>
+      <th>2013-12-9</th>
+      <td>165</td>
+      <td>月</td>
+      <td>1</td>
+      <td>ハンバーグデミソース</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>曇</td>
+      <td>--</td>
+      <td>9.1</td>
+    </tr>
+    <tr>
+      <th>2013-12-16</th>
+      <td>160</td>
+      <td>月</td>
+      <td>0</td>
+      <td>カキフライタルタル</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>快晴</td>
+      <td>--</td>
+      <td>11.3</td>
+    </tr>
+    <tr>
+      <th>2013-12-11</th>
+      <td>157</td>
+      <td>水</td>
+      <td>0</td>
+      <td>五目御飯</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>曇</td>
+      <td>--</td>
+      <td>11.0</td>
+    </tr>
+    <tr>
+      <th>2013-12-10</th>
+      <td>155</td>
+      <td>火</td>
+      <td>0</td>
+      <td>やわらかロースのサムジョン</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>1.0</td>
+      <td>曇</td>
+      <td>0.5</td>
+      <td>7.1</td>
+    </tr>
+  </tbody>
+</table>
+</div></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[83]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="n">df</span><span class="o">.</span><span class="n">index</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[83]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+Index([&#39;2013-11-18&#39;, &#39;2013-11-19&#39;, &#39;2013-11-20&#39;, &#39;2013-11-21&#39;, &#39;2013-11-22&#39;,
+       &#39;2013-11-25&#39;, &#39;2013-11-26&#39;, &#39;2013-11-27&#39;, &#39;2013-11-28&#39;, &#39;2013-11-29&#39;,
+       ...
+       &#39;2014-9-16&#39;, &#39;2014-9-17&#39;, &#39;2014-9-18&#39;, &#39;2014-9-19&#39;, &#39;2014-9-22&#39;,
+       &#39;2014-9-24&#39;, &#39;2014-9-25&#39;, &#39;2014-9-26&#39;, &#39;2014-9-29&#39;, &#39;2014-9-30&#39;],
+      dtype=&#39;object&#39;, name=&#39;datetime&#39;, length=207)
+</pre></div></div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[84]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="n">df</span><span class="o">.</span><span class="n">index</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">to_datetime</span><span class="p">(</span><span class="n">df</span><span class="o">.</span><span class="n">index</span><span class="p">,</span> <span class="nb">format</span><span class="o">=</span><span class="s1">&#39;%Y-%m-</span><span class="si">%d</span><span class="s1">&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[85]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="n">df</span><span class="o">.</span><span class="n">index</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[85]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+DatetimeIndex([&#39;2013-11-18&#39;, &#39;2013-11-19&#39;, &#39;2013-11-20&#39;, &#39;2013-11-21&#39;,
+               &#39;2013-11-22&#39;, &#39;2013-11-25&#39;, &#39;2013-11-26&#39;, &#39;2013-11-27&#39;,
+               &#39;2013-11-28&#39;, &#39;2013-11-29&#39;,
+               ...
+               &#39;2014-09-16&#39;, &#39;2014-09-17&#39;, &#39;2014-09-18&#39;, &#39;2014-09-19&#39;,
+               &#39;2014-09-22&#39;, &#39;2014-09-24&#39;, &#39;2014-09-25&#39;, &#39;2014-09-26&#39;,
+               &#39;2014-09-29&#39;, &#39;2014-09-30&#39;],
+              dtype=&#39;datetime64[ns]&#39;, name=&#39;datetime&#39;, length=207, freq=None)
+</pre></div></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[86]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="n">df</span><span class="o">.</span><span class="n">sort_index</span><span class="p">()</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[86]:
+</pre></div>
+</div>
+<div class="output_area rendered_html docutils container">
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>sales</th>
+      <th>week</th>
+      <th>soldout</th>
+      <th>name</th>
+      <th>kcal</th>
+      <th>remarks</th>
+      <th>event</th>
+      <th>payday</th>
+      <th>weather</th>
+      <th>precipitation</th>
+      <th>temperature</th>
+    </tr>
+    <tr>
+      <th>datetime</th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>2013-11-18</th>
+      <td>90</td>
+      <td>月</td>
+      <td>0</td>
+      <td>厚切りイカフライ</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>快晴</td>
+      <td>--</td>
+      <td>19.8</td>
+    </tr>
+    <tr>
+      <th>2013-11-19</th>
+      <td>101</td>
+      <td>火</td>
+      <td>1</td>
+      <td>手作りヒレカツ</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>快晴</td>
+      <td>--</td>
+      <td>17.0</td>
+    </tr>
+    <tr>
+      <th>2013-11-20</th>
+      <td>118</td>
+      <td>水</td>
+      <td>0</td>
+      <td>白身魚唐揚げ野菜あん</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>快晴</td>
+      <td>--</td>
+      <td>15.5</td>
+    </tr>
+    <tr>
+      <th>2013-11-21</th>
+      <td>120</td>
+      <td>木</td>
+      <td>1</td>
+      <td>若鶏ピリ辛焼</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>快晴</td>
+      <td>--</td>
+      <td>15.2</td>
+    </tr>
+    <tr>
+      <th>2013-11-22</th>
+      <td>130</td>
+      <td>金</td>
+      <td>1</td>
+      <td>ビッグメンチカツ</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>快晴</td>
+      <td>--</td>
+      <td>16.1</td>
+    </tr>
+  </tbody>
+</table>
+</div></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[87]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="n">df</span><span class="o">.</span><span class="n">resample</span><span class="p">(</span><span class="s1">&#39;M&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[87]:
+</pre></div>
+</div>
+<div class="output_area rendered_html docutils container">
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>sales</th>
+      <th>soldout</th>
+      <th>kcal</th>
+      <th>payday</th>
+      <th>temperature</th>
+    </tr>
+    <tr>
+      <th>datetime</th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>2013-11-30</th>
+      <td>124.600000</td>
+      <td>0.500000</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>16.060000</td>
+    </tr>
+    <tr>
+      <th>2013-12-31</th>
+      <td>139.722222</td>
+      <td>0.444444</td>
+      <td>NaN</td>
+      <td>1.0</td>
+      <td>10.844444</td>
+    </tr>
+    <tr>
+      <th>2014-01-31</th>
+      <td>115.222222</td>
+      <td>0.611111</td>
+      <td>427.555556</td>
+      <td>1.0</td>
+      <td>8.716667</td>
+    </tr>
+    <tr>
+      <th>2014-02-28</th>
+      <td>107.842105</td>
+      <td>0.526316</td>
+      <td>420.947368</td>
+      <td>1.0</td>
+      <td>7.815789</td>
+    </tr>
+    <tr>
+      <th>2014-03-31</th>
+      <td>89.350000</td>
+      <td>0.450000</td>
+      <td>382.157895</td>
+      <td>1.0</td>
+      <td>12.505000</td>
+    </tr>
+    <tr>
+      <th>2014-04-30</th>
+      <td>85.761905</td>
+      <td>0.476190</td>
+      <td>360.000000</td>
+      <td>1.0</td>
+      <td>18.176190</td>
+    </tr>
+    <tr>
+      <th>2014-05-31</th>
+      <td>74.200000</td>
+      <td>0.550000</td>
+      <td>419.111111</td>
+      <td>1.0</td>
+      <td>22.505000</td>
+    </tr>
+    <tr>
+      <th>2014-06-30</th>
+      <td>67.285714</td>
+      <td>0.333333</td>
+      <td>423.315789</td>
+      <td>1.0</td>
+      <td>25.409524</td>
+    </tr>
+    <tr>
+      <th>2014-07-31</th>
+      <td>61.363636</td>
+      <td>0.454545</td>
+      <td>397.200000</td>
+      <td>1.0</td>
+      <td>29.350000</td>
+    </tr>
+    <tr>
+      <th>2014-08-31</th>
+      <td>61.166667</td>
+      <td>0.333333</td>
+      <td>403.187500</td>
+      <td>1.0</td>
+      <td>30.227778</td>
+    </tr>
+    <tr>
+      <th>2014-09-30</th>
+      <td>55.550000</td>
+      <td>0.300000</td>
+      <td>408.611111</td>
+      <td>1.0</td>
+      <td>25.935000</td>
+    </tr>
+  </tbody>
+</table>
+</div></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[88]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="n">df</span><span class="p">[</span><span class="s1">&#39;month&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">pd</span><span class="o">.</span><span class="n">Series</span><span class="p">(</span><span class="n">df</span><span class="o">.</span><span class="n">index</span><span class="p">)</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">x</span><span class="o">.</span><span class="n">month</span><span class="p">))</span>
+<span class="n">df</span><span class="p">[</span><span class="s1">&#39;day&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">pd</span><span class="o">.</span><span class="n">Series</span><span class="p">(</span><span class="n">df</span><span class="o">.</span><span class="n">index</span><span class="p">)</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">x</span><span class="o">.</span><span class="n">day</span><span class="p">))</span>
+
+<span class="n">df</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[88]:
+</pre></div>
+</div>
+<div class="output_area rendered_html docutils container">
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>sales</th>
+      <th>week</th>
+      <th>soldout</th>
+      <th>name</th>
+      <th>kcal</th>
+      <th>remarks</th>
+      <th>event</th>
+      <th>payday</th>
+      <th>weather</th>
+      <th>precipitation</th>
+      <th>temperature</th>
+      <th>month</th>
+      <th>day</th>
+    </tr>
+    <tr>
+      <th>datetime</th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>2013-11-18</th>
+      <td>90</td>
+      <td>月</td>
+      <td>0</td>
+      <td>厚切りイカフライ</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>快晴</td>
+      <td>--</td>
+      <td>19.8</td>
+      <td>11</td>
+      <td>18</td>
+    </tr>
+    <tr>
+      <th>2013-11-19</th>
+      <td>101</td>
+      <td>火</td>
+      <td>1</td>
+      <td>手作りヒレカツ</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>快晴</td>
+      <td>--</td>
+      <td>17.0</td>
+      <td>11</td>
+      <td>19</td>
+    </tr>
+    <tr>
+      <th>2013-11-20</th>
+      <td>118</td>
+      <td>水</td>
+      <td>0</td>
+      <td>白身魚唐揚げ野菜あん</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>快晴</td>
+      <td>--</td>
+      <td>15.5</td>
+      <td>11</td>
+      <td>20</td>
+    </tr>
+    <tr>
+      <th>2013-11-21</th>
+      <td>120</td>
+      <td>木</td>
+      <td>1</td>
+      <td>若鶏ピリ辛焼</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>快晴</td>
+      <td>--</td>
+      <td>15.2</td>
+      <td>11</td>
+      <td>21</td>
+    </tr>
+    <tr>
+      <th>2013-11-22</th>
+      <td>130</td>
+      <td>金</td>
+      <td>1</td>
+      <td>ビッグメンチカツ</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>快晴</td>
+      <td>--</td>
+      <td>16.1</td>
+      <td>11</td>
+      <td>22</td>
+    </tr>
+  </tbody>
+</table>
+</div></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[89]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="n">labels</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;上旬&#39;</span><span class="p">,</span> <span class="s1">&#39;中旬&#39;</span><span class="p">,</span> <span class="s1">&#39;下旬&#39;</span><span class="p">]</span>
+<span class="n">df</span><span class="p">[</span><span class="s1">&#39;period&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">cut</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="s1">&#39;day&#39;</span><span class="p">]),</span>  <span class="n">bins</span><span class="o">=</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="mi">10</span><span class="p">,</span><span class="mi">20</span><span class="p">,</span><span class="mi">31</span><span class="p">],</span> <span class="n">labels</span><span class="o">=</span><span class="n">labels</span><span class="p">,</span> <span class="n">right</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span> <span class="c1"># 0&lt;day≦10, 10&lt;day≦20, 20&lt;day≦31</span>
+
+<span class="n">df</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[89]:
+</pre></div>
+</div>
+<div class="output_area rendered_html docutils container">
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>sales</th>
+      <th>week</th>
+      <th>soldout</th>
+      <th>name</th>
+      <th>kcal</th>
+      <th>remarks</th>
+      <th>event</th>
+      <th>payday</th>
+      <th>weather</th>
+      <th>precipitation</th>
+      <th>temperature</th>
+      <th>month</th>
+      <th>day</th>
+      <th>period</th>
+    </tr>
+    <tr>
+      <th>datetime</th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>2013-11-18</th>
+      <td>90</td>
+      <td>月</td>
+      <td>0</td>
+      <td>厚切りイカフライ</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>快晴</td>
+      <td>--</td>
+      <td>19.8</td>
+      <td>11</td>
+      <td>18</td>
+      <td>中旬</td>
+    </tr>
+    <tr>
+      <th>2013-11-19</th>
+      <td>101</td>
+      <td>火</td>
+      <td>1</td>
+      <td>手作りヒレカツ</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>快晴</td>
+      <td>--</td>
+      <td>17.0</td>
+      <td>11</td>
+      <td>19</td>
+      <td>中旬</td>
+    </tr>
+    <tr>
+      <th>2013-11-20</th>
+      <td>118</td>
+      <td>水</td>
+      <td>0</td>
+      <td>白身魚唐揚げ野菜あん</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>快晴</td>
+      <td>--</td>
+      <td>15.5</td>
+      <td>11</td>
+      <td>20</td>
+      <td>中旬</td>
+    </tr>
+    <tr>
+      <th>2013-11-21</th>
+      <td>120</td>
+      <td>木</td>
+      <td>1</td>
+      <td>若鶏ピリ辛焼</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>快晴</td>
+      <td>--</td>
+      <td>15.2</td>
+      <td>11</td>
+      <td>21</td>
+      <td>下旬</td>
+    </tr>
+    <tr>
+      <th>2013-11-22</th>
+      <td>130</td>
+      <td>金</td>
+      <td>1</td>
+      <td>ビッグメンチカツ</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>快晴</td>
+      <td>--</td>
+      <td>16.1</td>
+      <td>11</td>
+      <td>22</td>
+      <td>下旬</td>
+    </tr>
+  </tbody>
+</table>
+</div></div>
+</div>
+</div>
+<div class="section" id="データの欠損状態の確認">
+<h2><span class="section-number">7.4. </span>データの欠損状態の確認<a class="headerlink" href="#データの欠損状態の確認" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[90]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="n">df</span><span class="o">.</span><span class="n">isnull</span><span class="p">()</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[90]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+sales              0
+week               0
+soldout            0
+name               0
+kcal              41
+remarks          186
+event            193
+payday           197
+weather            0
+precipitation      0
+temperature        0
+month              0
+day                0
+period             0
+dtype: int64
+</pre></div></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[91]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="nb">print</span><span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="n">df</span><span class="o">.</span><span class="n">isnull</span><span class="p">()</span><span class="o">.</span><span class="n">any</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)]</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
+<span class="n">df</span><span class="p">[</span><span class="n">df</span><span class="o">.</span><span class="n">isnull</span><span class="p">()</span><span class="o">.</span><span class="n">any</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)]</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+(207, 14)
+</pre></div></div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[91]:
+</pre></div>
+</div>
+<div class="output_area rendered_html docutils container">
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>sales</th>
+      <th>week</th>
+      <th>soldout</th>
+      <th>name</th>
+      <th>kcal</th>
+      <th>remarks</th>
+      <th>event</th>
+      <th>payday</th>
+      <th>weather</th>
+      <th>precipitation</th>
+      <th>temperature</th>
+      <th>month</th>
+      <th>day</th>
+      <th>period</th>
+    </tr>
+    <tr>
+      <th>datetime</th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>2013-11-18</th>
+      <td>90</td>
+      <td>月</td>
+      <td>0</td>
+      <td>厚切りイカフライ</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>快晴</td>
+      <td>--</td>
+      <td>19.8</td>
+      <td>11</td>
+      <td>18</td>
+      <td>中旬</td>
+    </tr>
+    <tr>
+      <th>2013-11-19</th>
+      <td>101</td>
+      <td>火</td>
+      <td>1</td>
+      <td>手作りヒレカツ</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>快晴</td>
+      <td>--</td>
+      <td>17.0</td>
+      <td>11</td>
+      <td>19</td>
+      <td>中旬</td>
+    </tr>
+    <tr>
+      <th>2013-11-20</th>
+      <td>118</td>
+      <td>水</td>
+      <td>0</td>
+      <td>白身魚唐揚げ野菜あん</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>快晴</td>
+      <td>--</td>
+      <td>15.5</td>
+      <td>11</td>
+      <td>20</td>
+      <td>中旬</td>
+    </tr>
+    <tr>
+      <th>2013-11-21</th>
+      <td>120</td>
+      <td>木</td>
+      <td>1</td>
+      <td>若鶏ピリ辛焼</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>快晴</td>
+      <td>--</td>
+      <td>15.2</td>
+      <td>11</td>
+      <td>21</td>
+      <td>下旬</td>
+    </tr>
+    <tr>
+      <th>2013-11-22</th>
+      <td>130</td>
+      <td>金</td>
+      <td>1</td>
+      <td>ビッグメンチカツ</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>快晴</td>
+      <td>--</td>
+      <td>16.1</td>
+      <td>11</td>
+      <td>22</td>
+      <td>下旬</td>
+    </tr>
+  </tbody>
+</table>
+</div></div>
+</div>
+</div>
+<div class="section" id="値(欠損)の置き換えや削除">
+<h2><span class="section-number">7.5. </span>値(欠損)の置き換えや削除<a class="headerlink" href="#値(欠損)の置き換えや削除" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[92]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="n">df</span><span class="o">.</span><span class="n">fillna</span><span class="p">(</span><span class="n">value</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;payday&#39;</span><span class="p">:</span> <span class="mf">0.0</span><span class="p">},</span><span class="n">inplace</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">df</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[92]:
+</pre></div>
+</div>
+<div class="output_area rendered_html docutils container">
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>sales</th>
+      <th>week</th>
+      <th>soldout</th>
+      <th>name</th>
+      <th>kcal</th>
+      <th>remarks</th>
+      <th>event</th>
+      <th>payday</th>
+      <th>weather</th>
+      <th>precipitation</th>
+      <th>temperature</th>
+      <th>month</th>
+      <th>day</th>
+      <th>period</th>
+    </tr>
+    <tr>
+      <th>datetime</th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>2013-11-18</th>
+      <td>90</td>
+      <td>月</td>
+      <td>0</td>
+      <td>厚切りイカフライ</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>0.0</td>
+      <td>快晴</td>
+      <td>--</td>
+      <td>19.8</td>
+      <td>11</td>
+      <td>18</td>
+      <td>中旬</td>
+    </tr>
+    <tr>
+      <th>2013-11-19</th>
+      <td>101</td>
+      <td>火</td>
+      <td>1</td>
+      <td>手作りヒレカツ</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>0.0</td>
+      <td>快晴</td>
+      <td>--</td>
+      <td>17.0</td>
+      <td>11</td>
+      <td>19</td>
+      <td>中旬</td>
+    </tr>
+    <tr>
+      <th>2013-11-20</th>
+      <td>118</td>
+      <td>水</td>
+      <td>0</td>
+      <td>白身魚唐揚げ野菜あん</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>0.0</td>
+      <td>快晴</td>
+      <td>--</td>
+      <td>15.5</td>
+      <td>11</td>
+      <td>20</td>
+      <td>中旬</td>
+    </tr>
+    <tr>
+      <th>2013-11-21</th>
+      <td>120</td>
+      <td>木</td>
+      <td>1</td>
+      <td>若鶏ピリ辛焼</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>0.0</td>
+      <td>快晴</td>
+      <td>--</td>
+      <td>15.2</td>
+      <td>11</td>
+      <td>21</td>
+      <td>下旬</td>
+    </tr>
+    <tr>
+      <th>2013-11-22</th>
+      <td>130</td>
+      <td>金</td>
+      <td>1</td>
+      <td>ビッグメンチカツ</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>0.0</td>
+      <td>快晴</td>
+      <td>--</td>
+      <td>16.1</td>
+      <td>11</td>
+      <td>22</td>
+      <td>下旬</td>
+    </tr>
+  </tbody>
+</table>
+</div></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[93]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="n">df</span><span class="o">.</span><span class="n">isnull</span><span class="p">()</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[93]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+sales              0
+week               0
+soldout            0
+name               0
+kcal              41
+remarks          186
+event            193
+payday             0
+weather            0
+precipitation      0
+temperature        0
+month              0
+day                0
+period             0
+dtype: int64
+</pre></div></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[94]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="n">df</span><span class="o">.</span><span class="n">dropna</span><span class="p">(</span><span class="n">subset</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;kcal&#39;</span><span class="p">],</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">inplace</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">df</span><span class="o">.</span><span class="n">shape</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[94]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+(166, 14)
+</pre></div></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[95]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="n">df</span><span class="o">.</span><span class="n">isnull</span><span class="p">()</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[95]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+sales              0
+week               0
+soldout            0
+name               0
+kcal               0
+remarks          158
+event            155
+payday             0
+weather            0
+precipitation      0
+temperature        0
+month              0
+day                0
+period             0
+dtype: int64
+</pre></div></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[96]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="n">df</span><span class="p">[</span><span class="s1">&#39;precipitation&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="s1">&#39;precipitation&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">str</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s1">&#39;--&#39;</span><span class="p">,</span> <span class="s1">&#39;0&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">float</span><span class="p">)</span>
+<span class="n">df</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[96]:
+</pre></div>
+</div>
+<div class="output_area rendered_html docutils container">
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>sales</th>
+      <th>week</th>
+      <th>soldout</th>
+      <th>name</th>
+      <th>kcal</th>
+      <th>remarks</th>
+      <th>event</th>
+      <th>payday</th>
+      <th>weather</th>
+      <th>precipitation</th>
+      <th>temperature</th>
+      <th>month</th>
+      <th>day</th>
+      <th>period</th>
+    </tr>
+    <tr>
+      <th>datetime</th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>2014-01-07</th>
+      <td>131</td>
+      <td>火</td>
+      <td>0</td>
+      <td>カレー入りソーセージカツ</td>
+      <td>404.0</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>0.0</td>
+      <td>快晴</td>
+      <td>0.0</td>
+      <td>7.3</td>
+      <td>1</td>
+      <td>7</td>
+      <td>上旬</td>
+    </tr>
+    <tr>
+      <th>2014-01-08</th>
+      <td>128</td>
+      <td>水</td>
+      <td>0</td>
+      <td>豚肉の生姜焼</td>
+      <td>462.0</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>0.0</td>
+      <td>曇</td>
+      <td>0.0</td>
+      <td>9.8</td>
+      <td>1</td>
+      <td>8</td>
+      <td>上旬</td>
+    </tr>
+    <tr>
+      <th>2014-01-09</th>
+      <td>129</td>
+      <td>木</td>
+      <td>1</td>
+      <td>鶏チリソース</td>
+      <td>435.0</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>0.0</td>
+      <td>曇</td>
+      <td>0.0</td>
+      <td>10.9</td>
+      <td>1</td>
+      <td>9</td>
+      <td>上旬</td>
+    </tr>
+    <tr>
+      <th>2014-01-10</th>
+      <td>87</td>
+      <td>金</td>
+      <td>0</td>
+      <td>手作りロースカツ</td>
+      <td>440.0</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>1.0</td>
+      <td>快晴</td>
+      <td>0.0</td>
+      <td>5.1</td>
+      <td>1</td>
+      <td>10</td>
+      <td>上旬</td>
+    </tr>
+    <tr>
+      <th>2014-01-14</th>
+      <td>129</td>
+      <td>火</td>
+      <td>1</td>
+      <td>鶏の照り焼きマスタード</td>
+      <td>376.0</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>0.0</td>
+      <td>晴れ</td>
+      <td>0.0</td>
+      <td>5.8</td>
+      <td>1</td>
+      <td>14</td>
+      <td>中旬</td>
+    </tr>
+  </tbody>
+</table>
+</div></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[97]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="s1">&#39;sales&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">mask</span><span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="s1">&#39;sales&#39;</span><span class="p">]</span> <span class="o">&gt;</span> <span class="mi">80</span><span class="p">,</span> <span class="mi">100</span><span class="p">))</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[97]:
+</pre></div>
+</div>
+<div class="output_area rendered_html docutils container">
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>sales</th>
+    </tr>
+    <tr>
+      <th>datetime</th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>2014-01-07</th>
+      <td>100</td>
+    </tr>
+    <tr>
+      <th>2014-01-08</th>
+      <td>100</td>
+    </tr>
+    <tr>
+      <th>2014-01-09</th>
+      <td>100</td>
+    </tr>
+    <tr>
+      <th>2014-01-10</th>
+      <td>100</td>
+    </tr>
+    <tr>
+      <th>2014-01-14</th>
+      <td>100</td>
+    </tr>
+  </tbody>
+</table>
+</div></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[98]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="n">df</span><span class="o">.</span><span class="n">drop</span><span class="p">([</span><span class="s1">&#39;remarks&#39;</span><span class="p">],</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">inplace</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">df</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[98]:
+</pre></div>
+</div>
+<div class="output_area rendered_html docutils container">
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>sales</th>
+      <th>week</th>
+      <th>soldout</th>
+      <th>name</th>
+      <th>kcal</th>
+      <th>event</th>
+      <th>payday</th>
+      <th>weather</th>
+      <th>precipitation</th>
+      <th>temperature</th>
+      <th>month</th>
+      <th>day</th>
+      <th>period</th>
+    </tr>
+    <tr>
+      <th>datetime</th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>2014-01-07</th>
+      <td>131</td>
+      <td>火</td>
+      <td>0</td>
+      <td>カレー入りソーセージカツ</td>
+      <td>404.0</td>
+      <td>NaN</td>
+      <td>0.0</td>
+      <td>快晴</td>
+      <td>0.0</td>
+      <td>7.3</td>
+      <td>1</td>
+      <td>7</td>
+      <td>上旬</td>
+    </tr>
+    <tr>
+      <th>2014-01-08</th>
+      <td>128</td>
+      <td>水</td>
+      <td>0</td>
+      <td>豚肉の生姜焼</td>
+      <td>462.0</td>
+      <td>NaN</td>
+      <td>0.0</td>
+      <td>曇</td>
+      <td>0.0</td>
+      <td>9.8</td>
+      <td>1</td>
+      <td>8</td>
+      <td>上旬</td>
+    </tr>
+    <tr>
+      <th>2014-01-09</th>
+      <td>129</td>
+      <td>木</td>
+      <td>1</td>
+      <td>鶏チリソース</td>
+      <td>435.0</td>
+      <td>NaN</td>
+      <td>0.0</td>
+      <td>曇</td>
+      <td>0.0</td>
+      <td>10.9</td>
+      <td>1</td>
+      <td>9</td>
+      <td>上旬</td>
+    </tr>
+    <tr>
+      <th>2014-01-10</th>
+      <td>87</td>
+      <td>金</td>
+      <td>0</td>
+      <td>手作りロースカツ</td>
+      <td>440.0</td>
+      <td>NaN</td>
+      <td>1.0</td>
+      <td>快晴</td>
+      <td>0.0</td>
+      <td>5.1</td>
+      <td>1</td>
+      <td>10</td>
+      <td>上旬</td>
+    </tr>
+    <tr>
+      <th>2014-01-14</th>
+      <td>129</td>
+      <td>火</td>
+      <td>1</td>
+      <td>鶏の照り焼きマスタード</td>
+      <td>376.0</td>
+      <td>NaN</td>
+      <td>0.0</td>
+      <td>晴れ</td>
+      <td>0.0</td>
+      <td>5.8</td>
+      <td>1</td>
+      <td>14</td>
+      <td>中旬</td>
+    </tr>
+  </tbody>
+</table>
+</div></div>
+</div>
+</div>
+<div class="section" id="集計">
+<h2><span class="section-number">7.6. </span>集計<a class="headerlink" href="#集計" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[99]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="n">df</span><span class="p">[</span><span class="s1">&#39;weather&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">value_counts</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[99]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+曇     44
+晴れ    41
+快晴    34
+薄曇    23
+雨     22
+雷電     1
+雪      1
+Name: weather, dtype: int64
+</pre></div></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[100]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="n">df</span><span class="o">.</span><span class="n">groupby</span><span class="p">([</span><span class="s1">&#39;week&#39;</span><span class="p">])[</span><span class="s1">&#39;soldout&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">count</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[100]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+week
+月    34
+木    37
+水    37
+火    35
+金    23
+Name: soldout, dtype: int64
+</pre></div></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[101]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="n">df</span><span class="o">.</span><span class="n">groupby</span><span class="p">([</span><span class="s1">&#39;month&#39;</span><span class="p">,</span> <span class="s1">&#39;period&#39;</span><span class="p">])[</span><span class="s1">&#39;sales&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[101]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+month  period
+1      上旬         475
+       中旬         581
+       下旬        1018
+2      上旬         725
+       中旬         715
+       下旬         609
+3      上旬         614
+       中旬         698
+       下旬         369
+4      上旬         792
+       中旬         344
+       下旬         457
+5      上旬         316
+       中旬         406
+       下旬         517
+6      上旬         467
+       中旬         440
+       下旬         311
+7      上旬         460
+       中旬         277
+       下旬         406
+8      上旬         288
+       中旬         250
+       下旬         334
+9      上旬         468
+       中旬         249
+       下旬         234
+Name: sales, dtype: int64
+</pre></div></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[102]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="n">df</span><span class="o">.</span><span class="n">groupby</span><span class="p">([</span><span class="s1">&#39;weather&#39;</span><span class="p">])[</span><span class="s1">&#39;temperature&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[102]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+weather
+快晴    15.294118
+晴れ    22.558537
+曇     19.377273
+薄曇    23.926087
+雨     18.813636
+雪      1.200000
+雷電    19.000000
+Name: temperature, dtype: float64
+</pre></div></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[103]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="n">df</span><span class="p">[</span><span class="s1">&#39;temperature_diff&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="s1">&#39;temperature&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">diff</span><span class="p">(</span><span class="n">periods</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+<span class="n">df</span><span class="p">[[</span><span class="s1">&#39;temperature&#39;</span><span class="p">,</span> <span class="s1">&#39;temperature_diff&#39;</span><span class="p">]]</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[103]:
+</pre></div>
+</div>
+<div class="output_area rendered_html docutils container">
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>temperature</th>
+      <th>temperature_diff</th>
+    </tr>
+    <tr>
+      <th>datetime</th>
+      <th></th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>2014-01-07</th>
+      <td>7.3</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <th>2014-01-08</th>
+      <td>9.8</td>
+      <td>2.5</td>
+    </tr>
+    <tr>
+      <th>2014-01-09</th>
+      <td>10.9</td>
+      <td>1.1</td>
+    </tr>
+    <tr>
+      <th>2014-01-10</th>
+      <td>5.1</td>
+      <td>-5.8</td>
+    </tr>
+    <tr>
+      <th>2014-01-14</th>
+      <td>5.8</td>
+      <td>0.7</td>
+    </tr>
+  </tbody>
+</table>
+</div></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[104]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="n">df</span><span class="p">[</span><span class="s1">&#39;temperature_rolling_mean&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="s1">&#39;temperature&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">rolling</span><span class="p">(</span><span class="n">window</span><span class="o">=</span><span class="mi">3</span><span class="p">)</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span>
+<span class="n">df</span><span class="p">[[</span><span class="s1">&#39;temperature&#39;</span><span class="p">,</span> <span class="s1">&#39;temperature_diff&#39;</span><span class="p">,</span> <span class="s1">&#39;temperature_rolling_mean&#39;</span><span class="p">]]</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[104]:
+</pre></div>
+</div>
+<div class="output_area rendered_html docutils container">
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>temperature</th>
+      <th>temperature_diff</th>
+      <th>temperature_rolling_mean</th>
+    </tr>
+    <tr>
+      <th>datetime</th>
+      <th></th>
+      <th></th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>2014-01-07</th>
+      <td>7.3</td>
+      <td>NaN</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <th>2014-01-08</th>
+      <td>9.8</td>
+      <td>2.5</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <th>2014-01-09</th>
+      <td>10.9</td>
+      <td>1.1</td>
+      <td>9.333333</td>
+    </tr>
+    <tr>
+      <th>2014-01-10</th>
+      <td>5.1</td>
+      <td>-5.8</td>
+      <td>8.600000</td>
+    </tr>
+    <tr>
+      <th>2014-01-14</th>
+      <td>5.8</td>
+      <td>0.7</td>
+      <td>7.266667</td>
+    </tr>
+  </tbody>
+</table>
+</div></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[105]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="n">df</span><span class="p">[</span><span class="s1">&#39;temperature_pct_change&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="s1">&#39;temperature&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">pct_change</span><span class="p">()</span>
+<span class="n">df</span><span class="p">[[</span><span class="s1">&#39;temperature&#39;</span><span class="p">,</span> <span class="s1">&#39;temperature_diff&#39;</span><span class="p">,</span> <span class="s1">&#39;temperature_rolling_mean&#39;</span><span class="p">,</span> <span class="s1">&#39;temperature_pct_change&#39;</span><span class="p">]]</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[105]:
+</pre></div>
+</div>
+<div class="output_area rendered_html docutils container">
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>temperature</th>
+      <th>temperature_diff</th>
+      <th>temperature_rolling_mean</th>
+      <th>temperature_pct_change</th>
+    </tr>
+    <tr>
+      <th>datetime</th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>2014-01-07</th>
+      <td>7.3</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <th>2014-01-08</th>
+      <td>9.8</td>
+      <td>2.5</td>
+      <td>NaN</td>
+      <td>0.342466</td>
+    </tr>
+    <tr>
+      <th>2014-01-09</th>
+      <td>10.9</td>
+      <td>1.1</td>
+      <td>9.333333</td>
+      <td>0.112245</td>
+    </tr>
+    <tr>
+      <th>2014-01-10</th>
+      <td>5.1</td>
+      <td>-5.8</td>
+      <td>8.600000</td>
+      <td>-0.532110</td>
+    </tr>
+    <tr>
+      <th>2014-01-14</th>
+      <td>5.8</td>
+      <td>0.7</td>
+      <td>7.266667</td>
+      <td>0.137255</td>
+    </tr>
+  </tbody>
+</table>
+</div></div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[106]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="n">df</span><span class="o">.</span><span class="n">dropna</span><span class="p">(</span><span class="n">subset</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;temperature_diff&#39;</span><span class="p">,</span> <span class="s1">&#39;temperature_rolling_mean&#39;</span><span class="p">,</span> <span class="s1">&#39;temperature_pct_change&#39;</span><span class="p">],</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">inplace</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[107]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="n">df</span><span class="o">.</span><span class="n">isnull</span><span class="p">()</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[107]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+sales                         0
+week                          0
+soldout                       0
+name                          0
+kcal                          0
+event                       153
+payday                        0
+weather                       0
+precipitation                 0
+temperature                   0
+month                         0
+day                           0
+period                        0
+temperature_diff              0
+temperature_rolling_mean      0
+temperature_pct_change        0
+dtype: int64
+</pre></div></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[108]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="n">df</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[108]:
+</pre></div>
+</div>
+<div class="output_area rendered_html docutils container">
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>sales</th>
+      <th>week</th>
+      <th>soldout</th>
+      <th>name</th>
+      <th>kcal</th>
+      <th>event</th>
+      <th>payday</th>
+      <th>weather</th>
+      <th>precipitation</th>
+      <th>temperature</th>
+      <th>month</th>
+      <th>day</th>
+      <th>period</th>
+      <th>temperature_diff</th>
+      <th>temperature_rolling_mean</th>
+      <th>temperature_pct_change</th>
+    </tr>
+    <tr>
+      <th>datetime</th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>2014-01-09</th>
+      <td>129</td>
+      <td>木</td>
+      <td>1</td>
+      <td>鶏チリソース</td>
+      <td>435.0</td>
+      <td>NaN</td>
+      <td>0.0</td>
+      <td>曇</td>
+      <td>0.0</td>
+      <td>10.9</td>
+      <td>1</td>
+      <td>9</td>
+      <td>上旬</td>
+      <td>1.1</td>
+      <td>9.333333</td>
+      <td>0.112245</td>
+    </tr>
+    <tr>
+      <th>2014-01-10</th>
+      <td>87</td>
+      <td>金</td>
+      <td>0</td>
+      <td>手作りロースカツ</td>
+      <td>440.0</td>
+      <td>NaN</td>
+      <td>1.0</td>
+      <td>快晴</td>
+      <td>0.0</td>
+      <td>5.1</td>
+      <td>1</td>
+      <td>10</td>
+      <td>上旬</td>
+      <td>-5.8</td>
+      <td>8.600000</td>
+      <td>-0.532110</td>
+    </tr>
+    <tr>
+      <th>2014-01-14</th>
+      <td>129</td>
+      <td>火</td>
+      <td>1</td>
+      <td>鶏の照り焼きマスタード</td>
+      <td>376.0</td>
+      <td>NaN</td>
+      <td>0.0</td>
+      <td>晴れ</td>
+      <td>0.0</td>
+      <td>5.8</td>
+      <td>1</td>
+      <td>14</td>
+      <td>中旬</td>
+      <td>0.7</td>
+      <td>7.266667</td>
+      <td>0.137255</td>
+    </tr>
+    <tr>
+      <th>2014-01-15</th>
+      <td>134</td>
+      <td>水</td>
+      <td>0</td>
+      <td>さんま辛味焼</td>
+      <td>450.0</td>
+      <td>NaN</td>
+      <td>0.0</td>
+      <td>曇</td>
+      <td>0.0</td>
+      <td>2.9</td>
+      <td>1</td>
+      <td>15</td>
+      <td>中旬</td>
+      <td>-2.9</td>
+      <td>4.600000</td>
+      <td>-0.500000</td>
+    </tr>
+    <tr>
+      <th>2014-01-16</th>
+      <td>107</td>
+      <td>木</td>
+      <td>0</td>
+      <td>カレイ唐揚げ野菜あんかけ</td>
+      <td>415.0</td>
+      <td>NaN</td>
+      <td>0.0</td>
+      <td>快晴</td>
+      <td>0.0</td>
+      <td>7.0</td>
+      <td>1</td>
+      <td>16</td>
+      <td>中旬</td>
+      <td>4.1</td>
+      <td>5.233333</td>
+      <td>1.413793</td>
+    </tr>
+  </tbody>
+</table>
+</div></div>
+</div>
+</div>
+<div class="section" id="可視化">
+<h2><span class="section-number">7.7. </span>可視化<a class="headerlink" href="#可視化" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[109]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="o">%</span><span class="k">matplotlib</span> inline
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">style</span><span class="o">.</span><span class="n">use</span><span class="p">(</span><span class="s1">&#39;ggplot&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[110]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="n">df</span><span class="p">[</span><span class="s1">&#39;sales&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">plot</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[110]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+&lt;matplotlib.axes._subplots.AxesSubplot at 0x7f76f4f04908&gt;
+</pre></div></div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="../_images/sample_pandas_56_1.png" src="../_images/sample_pandas_56_1.png" />
+</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[111]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="n">df</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">y</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;temperature&#39;</span><span class="p">,</span> <span class="s1">&#39;temperature_rolling_mean&#39;</span><span class="p">,</span> <span class="s1">&#39;temperature_pct_change&#39;</span><span class="p">],</span>  <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">16</span><span class="p">,</span><span class="mi">4</span><span class="p">),</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.5</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s1">&#39;気温変化に関する図&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[111]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+Text(0.5, 1.0, &#39;気温変化に関する図&#39;)
+</pre></div></div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="../_images/sample_pandas_57_1.png" src="../_images/sample_pandas_57_1.png" />
+</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[112]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="n">df</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">kind</span><span class="o">=</span><span class="s1">&#39;hist&#39;</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="s1">&#39;sales&#39;</span><span class="p">,</span> <span class="n">bins</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">16</span><span class="p">,</span><span class="mi">4</span><span class="p">),</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.5</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[112]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+&lt;matplotlib.axes._subplots.AxesSubplot at 0x7f76f4eefcc0&gt;
+</pre></div></div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="../_images/sample_pandas_58_1.png" src="../_images/sample_pandas_58_1.png" />
+</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[113]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="n">df</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">kind</span><span class="o">=</span><span class="s1">&#39;scatter&#39;</span><span class="p">,</span> <span class="n">x</span><span class="o">=</span><span class="s1">&#39;kcal&#39;</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="s1">&#39;sales&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[113]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+&lt;matplotlib.axes._subplots.AxesSubplot at 0x7f76f4df24e0&gt;
+</pre></div></div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="../_images/sample_pandas_59_1.png" src="../_images/sample_pandas_59_1.png" />
+</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[114]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="n">df</span><span class="p">[[</span><span class="s1">&#39;kcal&#39;</span><span class="p">,</span> <span class="s1">&#39;sales&#39;</span><span class="p">]]</span><span class="o">.</span><span class="n">corr</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[114]:
+</pre></div>
+</div>
+<div class="output_area rendered_html docutils container">
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>kcal</th>
+      <th>sales</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>kcal</th>
+      <td>1.000000</td>
+      <td>0.129521</td>
+    </tr>
+    <tr>
+      <th>sales</th>
+      <td>0.129521</td>
+      <td>1.000000</td>
+    </tr>
+  </tbody>
+</table>
+</div></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[115]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="n">monthly_df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">df</span><span class="o">.</span><span class="n">groupby</span><span class="p">([</span><span class="s1">&#39;month&#39;</span><span class="p">,</span> <span class="s1">&#39;period&#39;</span><span class="p">])[</span><span class="s1">&#39;sales&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">sum</span><span class="p">())</span>
+<span class="n">pivot_monthly_df</span> <span class="o">=</span> <span class="n">monthly_df</span><span class="o">.</span><span class="n">reset_index</span><span class="p">()</span><span class="o">.</span><span class="n">pivot</span><span class="p">(</span><span class="n">index</span><span class="o">=</span><span class="s1">&#39;month&#39;</span><span class="p">,</span> <span class="n">columns</span><span class="o">=</span><span class="s1">&#39;period&#39;</span><span class="p">,</span> <span class="n">values</span><span class="o">=</span><span class="s1">&#39;sales&#39;</span><span class="p">)</span>
+<span class="n">pivot_monthly_df</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[115]:
+</pre></div>
+</div>
+<div class="output_area rendered_html docutils container">
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th>period</th>
+      <th>上旬</th>
+      <th>中旬</th>
+      <th>下旬</th>
+    </tr>
+    <tr>
+      <th>month</th>
+      <th></th>
+      <th></th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>1</th>
+      <td>216</td>
+      <td>581</td>
+      <td>1018</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>725</td>
+      <td>715</td>
+      <td>609</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>614</td>
+      <td>698</td>
+      <td>369</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>792</td>
+      <td>344</td>
+      <td>457</td>
+    </tr>
+    <tr>
+      <th>5</th>
+      <td>316</td>
+      <td>406</td>
+      <td>517</td>
+    </tr>
+    <tr>
+      <th>6</th>
+      <td>467</td>
+      <td>440</td>
+      <td>311</td>
+    </tr>
+    <tr>
+      <th>7</th>
+      <td>460</td>
+      <td>277</td>
+      <td>406</td>
+    </tr>
+    <tr>
+      <th>8</th>
+      <td>288</td>
+      <td>250</td>
+      <td>334</td>
+    </tr>
+    <tr>
+      <th>9</th>
+      <td>468</td>
+      <td>249</td>
+      <td>234</td>
+    </tr>
+  </tbody>
+</table>
+</div></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[116]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="n">pivot_monthly_df</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">kind</span><span class="o">=</span><span class="s1">&#39;bar&#39;</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.6</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">12</span><span class="p">,</span><span class="mi">3</span><span class="p">))</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s1">&#39;月別・期間別の売上個数&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[116]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+Text(0.5, 1.0, &#39;月別・期間別の売上個数&#39;)
+</pre></div></div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="../_images/sample_pandas_62_1.png" src="../_images/sample_pandas_62_1.png" />
+</div>
+</div>
+</div>
+<div class="section" id="変数の前処理">
+<h2><span class="section-number">7.8. </span>変数の前処理<a class="headerlink" href="#変数の前処理" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[117]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="nb">print</span><span class="p">(</span><span class="n">df</span><span class="o">.</span><span class="n">columns</span><span class="p">)</span>
+<span class="nb">len</span><span class="p">(</span><span class="n">df</span><span class="o">.</span><span class="n">columns</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+Index([&#39;sales&#39;, &#39;week&#39;, &#39;soldout&#39;, &#39;name&#39;, &#39;kcal&#39;, &#39;event&#39;, &#39;payday&#39;,
+       &#39;weather&#39;, &#39;precipitation&#39;, &#39;temperature&#39;, &#39;month&#39;, &#39;day&#39;, &#39;period&#39;,
+       &#39;temperature_diff&#39;, &#39;temperature_rolling_mean&#39;,
+       &#39;temperature_pct_change&#39;],
+      dtype=&#39;object&#39;)
+</pre></div></div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[117]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+16
+</pre></div></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[118]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="n">dummy_df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">get_dummies</span><span class="p">(</span><span class="n">df</span><span class="p">,</span> <span class="n">columns</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;week&#39;</span><span class="p">,</span> <span class="s1">&#39;name&#39;</span><span class="p">,</span> <span class="s1">&#39;event&#39;</span><span class="p">,</span> <span class="s1">&#39;weather&#39;</span><span class="p">,</span> <span class="s1">&#39;period&#39;</span><span class="p">])</span>
+<span class="n">dummy_df</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[118]:
+</pre></div>
+</div>
+<div class="output_area rendered_html docutils container">
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>sales</th>
+      <th>soldout</th>
+      <th>kcal</th>
+      <th>payday</th>
+      <th>precipitation</th>
+      <th>temperature</th>
+      <th>month</th>
+      <th>day</th>
+      <th>temperature_diff</th>
+      <th>temperature_rolling_mean</th>
+      <th>temperature_pct_change</th>
+      <th>week_月</th>
+      <th>week_木</th>
+      <th>week_水</th>
+      <th>week_火</th>
+      <th>week_金</th>
+      <th>name_いか天ぷら</th>
+      <th>name_かじきの甘辛煮</th>
+      <th>name_きのこソースハンバーグ</th>
+      <th>name_さわら焼味噌掛け</th>
+      <th>name_さんま辛味焼</th>
+      <th>name_たっぷりベーコンフライ</th>
+      <th>name_ぶりレモンペッパー焼き</th>
+      <th>name_ますのマスタードソース</th>
+      <th>name_アジ唐揚げ南蛮ソース</th>
+      <th>name_エビフライ</th>
+      <th>name_カレイの唐揚げ</th>
+      <th>name_カレイ唐揚げ 甘酢あん</th>
+      <th>name_カレイ唐揚げ夏野菜あん</th>
+      <th>name_カレイ唐揚げ野菜あんかけ</th>
+      <th>name_カレイ唐揚げ野菜餡かけ</th>
+      <th>name_カレイ野菜あんかけ</th>
+      <th>name_キスと野菜の天ぷら</th>
+      <th>name_キーマカレー</th>
+      <th>name_ゴーヤチャンプルー</th>
+      <th>name_サバ焼味噌掛け</th>
+      <th>name_サーモンのムニエル2色ソース</th>
+      <th>name_サーモンフライ・タルタル</th>
+      <th>name_ジャンボチキンカツ</th>
+      <th>name_ジューシーメンチカツ</th>
+      <th>name_タンドリーチキン</th>
+      <th>name_チキンのコーンクリーム焼き</th>
+      <th>name_チキンの辛味噌焼き</th>
+      <th>name_チキンクリームシチュー</th>
+      <th>name_チキンステーキ・きのこソース</th>
+      <th>name_チキンフリカッセ</th>
+      <th>name_チキン南蛮</th>
+      <th>name_チキン香草焼きマスタードソース</th>
+      <th>name_チャプチェ</th>
+      <th>name_チンジャオロース</th>
+      <th>name_チーズハンバーグ</th>
+      <th>name_チーズメンチカツ</th>
+      <th>name_チーズ入りハンバーグ</th>
+      <th>name_チーズ入りメンチカツ</th>
+      <th>name_ハンバーグカレーソース</th>
+      <th>name_ハンバーグケッチャップソース</th>
+      <th>name_ハンバーグデミソース</th>
+      <th>name_ハンバーグ和風きのこソース</th>
+      <th>name_ハンバーグ（デミきのこバター）</th>
+      <th>name_バーベキューチキン</th>
+      <th>name_ビーフカレー</th>
+      <th>name_ビーフシチュー</th>
+      <th>name_ビーフストロガノフ</th>
+      <th>name_ビーフトマト煮</th>
+      <th>name_プルコギ</th>
+      <th>name_ホタテクリ―ムシチュー</th>
+      <th>name_ボローニャ風カツ</th>
+      <th>name_ポークソテー韓国ソース</th>
+      <th>name_ポークハヤシ</th>
+      <th>name_ポーク生姜焼き</th>
+      <th>name_マーボ茄子</th>
+      <th>name_マーボ豆腐</th>
+      <th>name_メダイ照り焼</th>
+      <th>name_メンチカツ</th>
+      <th>name_ロース甘味噌焼き</th>
+      <th>name_八宝菜</th>
+      <th>name_厚切イカフライ</th>
+      <th>name_厚切ハムカツ</th>
+      <th>name_名古屋味噌カツ</th>
+      <th>name_和風ソースハンバーグ</th>
+      <th>name_和風ハンバーグ</th>
+      <th>name_回鍋肉</th>
+      <th>name_手作りひれかつ</th>
+      <th>name_手作りひれかつとカレー</th>
+      <th>name_手作りチキンカツ</th>
+      <th>name_手作りトンカツ</th>
+      <th>name_手作りロースカツ</th>
+      <th>name_洋食屋さんのメンチカツ</th>
+      <th>name_海老クリーミ―クノーデル</th>
+      <th>name_海老フライとホタテ串カツ</th>
+      <th>name_海老フライタルタル</th>
+      <th>name_炊き込みご飯</th>
+      <th>name_牛すき焼き風</th>
+      <th>name_牛カルビ焼き肉</th>
+      <th>name_牛スキヤキ</th>
+      <th>name_牛丼風煮</th>
+      <th>name_牛肉すき焼き風</th>
+      <th>name_牛肉コロッケ</th>
+      <th>name_牛肉ニンニクの芽炒め</th>
+      <th>name_牛肉筍煮</th>
+      <th>name_白身魚のマスタード焼き</th>
+      <th>name_白身魚の南部焼き</th>
+      <th>name_白身魚フライ</th>
+      <th>name_白身魚ムニエル</th>
+      <th>name_白身魚唐揚げ野菜あんかけ</th>
+      <th>name_白身魚唐揚げ野菜餡かけ</th>
+      <th>name_筑前煮</th>
+      <th>name_肉じゃが</th>
+      <th>name_肉団子のシチュー</th>
+      <th>name_肉団子クリームシチュー</th>
+      <th>name_親子煮</th>
+      <th>name_豚すき焼き</th>
+      <th>name_豚の冷しゃぶ</th>
+      <th>name_豚キムチ炒め</th>
+      <th>name_豚ロースのピザ風チーズ焼き</th>
+      <th>name_豚冷シャブ野菜添え</th>
+      <th>name_豚味噌メンチカツ</th>
+      <th>name_豚肉と玉子の炒め</th>
+      <th>name_豚肉と茄子のピリ辛炒め</th>
+      <th>name_豚肉のマスタード焼き</th>
+      <th>name_豚肉の生姜焼き</th>
+      <th>name_豚肉の胡麻シャブ</th>
+      <th>name_越冬キャベツのメンチカツ</th>
+      <th>name_酢豚</th>
+      <th>name_酢豚orカレー</th>
+      <th>name_青梗菜牛肉炒め</th>
+      <th>name_青椒肉絲</th>
+      <th>name_鶏のから揚げねぎ塩炒めソース</th>
+      <th>name_鶏のから揚げスイートチリソース</th>
+      <th>name_鶏のカッシュナッツ炒め</th>
+      <th>name_鶏のトマトシチュー</th>
+      <th>name_鶏のピリ辛焼き</th>
+      <th>name_鶏のレモンペッパー焼orカレー</th>
+      <th>name_鶏の味噌漬け焼き</th>
+      <th>name_鶏の唐揚げ</th>
+      <th>name_鶏の唐揚げおろしソース</th>
+      <th>name_鶏の塩から揚げ</th>
+      <th>name_鶏の天ぷら</th>
+      <th>name_鶏の照り焼きマスタード</th>
+      <th>name_鶏の照り焼きマヨ</th>
+      <th>name_鶏の親子煮</th>
+      <th>name_鶏チリソース</th>
+      <th>name_鶏肉とカシューナッツ炒め</th>
+      <th>name_鶏肉のカレー唐揚</th>
+      <th>name_鶏肉の山賊焼き</th>
+      <th>event_キャリアアップ支援セミナー</th>
+      <th>event_ママの会</th>
+      <th>weather_快晴</th>
+      <th>weather_晴れ</th>
+      <th>weather_曇</th>
+      <th>weather_薄曇</th>
+      <th>weather_雨</th>
+      <th>weather_雪</th>
+      <th>weather_雷電</th>
+      <th>period_上旬</th>
+      <th>period_中旬</th>
+      <th>period_下旬</th>
+    </tr>
+    <tr>
+      <th>datetime</th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>2014-01-09</th>
+      <td>129</td>
+      <td>1</td>
+      <td>435.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>10.9</td>
+      <td>1</td>
+      <td>9</td>
+      <td>1.1</td>
+      <td>9.333333</td>
+      <td>0.112245</td>
+      <td>0</td>
+      <td>1</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>1</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>1</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>1</td>
+      <td>0</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>2014-01-10</th>
+      <td>87</td>
+      <td>0</td>
+      <td>440.0</td>
+      <td>1.0</td>
+      <td>0.0</td>
+      <td>5.1</td>
+      <td>1</td>
+      <td>10</td>
+      <td>-5.8</td>
+      <td>8.600000</td>
+      <td>-0.532110</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>1</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>1</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>1</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>1</td>
+      <td>0</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>2014-01-14</th>
+      <td>129</td>
+      <td>1</td>
+      <td>376.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>5.8</td>
+      <td>1</td>
+      <td>14</td>
+      <td>0.7</td>
+      <td>7.266667</td>
+      <td>0.137255</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>1</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>1</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>1</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>1</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>2014-01-15</th>
+      <td>134</td>
+      <td>0</td>
+      <td>450.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>2.9</td>
+      <td>1</td>
+      <td>15</td>
+      <td>-2.9</td>
+      <td>4.600000</td>
+      <td>-0.500000</td>
+      <td>0</td>
+      <td>0</td>
+      <td>1</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>1</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>1</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>1</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>2014-01-16</th>
+      <td>107</td>
+      <td>0</td>
+      <td>415.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>7.0</td>
+      <td>1</td>
+      <td>16</td>
+      <td>4.1</td>
+      <td>5.233333</td>
+      <td>1.413793</td>
+      <td>0</td>
+      <td>1</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>1</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>1</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>1</td>
+      <td>0</td>
+    </tr>
+  </tbody>
+</table>
+</div></div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[119]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="n">pd</span><span class="o">.</span><span class="n">set_option</span><span class="p">(</span><span class="s1">&#39;display.max_columns&#39;</span><span class="p">,</span> <span class="mi">160</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[120]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="nb">print</span><span class="p">(</span><span class="n">dummy_df</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
+<span class="n">dummy_df</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+(164, 157)
+</pre></div></div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[120]:
+</pre></div>
+</div>
+<div class="output_area rendered_html docutils container">
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>sales</th>
+      <th>soldout</th>
+      <th>kcal</th>
+      <th>payday</th>
+      <th>precipitation</th>
+      <th>temperature</th>
+      <th>month</th>
+      <th>day</th>
+      <th>temperature_diff</th>
+      <th>temperature_rolling_mean</th>
+      <th>temperature_pct_change</th>
+      <th>week_月</th>
+      <th>week_木</th>
+      <th>week_水</th>
+      <th>week_火</th>
+      <th>week_金</th>
+      <th>name_いか天ぷら</th>
+      <th>name_かじきの甘辛煮</th>
+      <th>name_きのこソースハンバーグ</th>
+      <th>name_さわら焼味噌掛け</th>
+      <th>name_さんま辛味焼</th>
+      <th>name_たっぷりベーコンフライ</th>
+      <th>name_ぶりレモンペッパー焼き</th>
+      <th>name_ますのマスタードソース</th>
+      <th>name_アジ唐揚げ南蛮ソース</th>
+      <th>name_エビフライ</th>
+      <th>name_カレイの唐揚げ</th>
+      <th>name_カレイ唐揚げ 甘酢あん</th>
+      <th>name_カレイ唐揚げ夏野菜あん</th>
+      <th>name_カレイ唐揚げ野菜あんかけ</th>
+      <th>name_カレイ唐揚げ野菜餡かけ</th>
+      <th>name_カレイ野菜あんかけ</th>
+      <th>name_キスと野菜の天ぷら</th>
+      <th>name_キーマカレー</th>
+      <th>name_ゴーヤチャンプルー</th>
+      <th>name_サバ焼味噌掛け</th>
+      <th>name_サーモンのムニエル2色ソース</th>
+      <th>name_サーモンフライ・タルタル</th>
+      <th>name_ジャンボチキンカツ</th>
+      <th>name_ジューシーメンチカツ</th>
+      <th>name_タンドリーチキン</th>
+      <th>name_チキンのコーンクリーム焼き</th>
+      <th>name_チキンの辛味噌焼き</th>
+      <th>name_チキンクリームシチュー</th>
+      <th>name_チキンステーキ・きのこソース</th>
+      <th>name_チキンフリカッセ</th>
+      <th>name_チキン南蛮</th>
+      <th>name_チキン香草焼きマスタードソース</th>
+      <th>name_チャプチェ</th>
+      <th>name_チンジャオロース</th>
+      <th>name_チーズハンバーグ</th>
+      <th>name_チーズメンチカツ</th>
+      <th>name_チーズ入りハンバーグ</th>
+      <th>name_チーズ入りメンチカツ</th>
+      <th>name_ハンバーグカレーソース</th>
+      <th>name_ハンバーグケッチャップソース</th>
+      <th>name_ハンバーグデミソース</th>
+      <th>name_ハンバーグ和風きのこソース</th>
+      <th>name_ハンバーグ（デミきのこバター）</th>
+      <th>name_バーベキューチキン</th>
+      <th>name_ビーフカレー</th>
+      <th>name_ビーフシチュー</th>
+      <th>name_ビーフストロガノフ</th>
+      <th>name_ビーフトマト煮</th>
+      <th>name_プルコギ</th>
+      <th>name_ホタテクリ―ムシチュー</th>
+      <th>name_ボローニャ風カツ</th>
+      <th>name_ポークソテー韓国ソース</th>
+      <th>name_ポークハヤシ</th>
+      <th>name_ポーク生姜焼き</th>
+      <th>name_マーボ茄子</th>
+      <th>name_マーボ豆腐</th>
+      <th>name_メダイ照り焼</th>
+      <th>name_メンチカツ</th>
+      <th>name_ロース甘味噌焼き</th>
+      <th>name_八宝菜</th>
+      <th>name_厚切イカフライ</th>
+      <th>name_厚切ハムカツ</th>
+      <th>name_名古屋味噌カツ</th>
+      <th>name_和風ソースハンバーグ</th>
+      <th>name_和風ハンバーグ</th>
+      <th>name_回鍋肉</th>
+      <th>name_手作りひれかつ</th>
+      <th>name_手作りひれかつとカレー</th>
+      <th>name_手作りチキンカツ</th>
+      <th>name_手作りトンカツ</th>
+      <th>name_手作りロースカツ</th>
+      <th>name_洋食屋さんのメンチカツ</th>
+      <th>name_海老クリーミ―クノーデル</th>
+      <th>name_海老フライとホタテ串カツ</th>
+      <th>name_海老フライタルタル</th>
+      <th>name_炊き込みご飯</th>
+      <th>name_牛すき焼き風</th>
+      <th>name_牛カルビ焼き肉</th>
+      <th>name_牛スキヤキ</th>
+      <th>name_牛丼風煮</th>
+      <th>name_牛肉すき焼き風</th>
+      <th>name_牛肉コロッケ</th>
+      <th>name_牛肉ニンニクの芽炒め</th>
+      <th>name_牛肉筍煮</th>
+      <th>name_白身魚のマスタード焼き</th>
+      <th>name_白身魚の南部焼き</th>
+      <th>name_白身魚フライ</th>
+      <th>name_白身魚ムニエル</th>
+      <th>name_白身魚唐揚げ野菜あんかけ</th>
+      <th>name_白身魚唐揚げ野菜餡かけ</th>
+      <th>name_筑前煮</th>
+      <th>name_肉じゃが</th>
+      <th>name_肉団子のシチュー</th>
+      <th>name_肉団子クリームシチュー</th>
+      <th>name_親子煮</th>
+      <th>name_豚すき焼き</th>
+      <th>name_豚の冷しゃぶ</th>
+      <th>name_豚キムチ炒め</th>
+      <th>name_豚ロースのピザ風チーズ焼き</th>
+      <th>name_豚冷シャブ野菜添え</th>
+      <th>name_豚味噌メンチカツ</th>
+      <th>name_豚肉と玉子の炒め</th>
+      <th>name_豚肉と茄子のピリ辛炒め</th>
+      <th>name_豚肉のマスタード焼き</th>
+      <th>name_豚肉の生姜焼き</th>
+      <th>name_豚肉の胡麻シャブ</th>
+      <th>name_越冬キャベツのメンチカツ</th>
+      <th>name_酢豚</th>
+      <th>name_酢豚orカレー</th>
+      <th>name_青梗菜牛肉炒め</th>
+      <th>name_青椒肉絲</th>
+      <th>name_鶏のから揚げねぎ塩炒めソース</th>
+      <th>name_鶏のから揚げスイートチリソース</th>
+      <th>name_鶏のカッシュナッツ炒め</th>
+      <th>name_鶏のトマトシチュー</th>
+      <th>name_鶏のピリ辛焼き</th>
+      <th>name_鶏のレモンペッパー焼orカレー</th>
+      <th>name_鶏の味噌漬け焼き</th>
+      <th>name_鶏の唐揚げ</th>
+      <th>name_鶏の唐揚げおろしソース</th>
+      <th>name_鶏の塩から揚げ</th>
+      <th>name_鶏の天ぷら</th>
+      <th>name_鶏の照り焼きマスタード</th>
+      <th>name_鶏の照り焼きマヨ</th>
+      <th>name_鶏の親子煮</th>
+      <th>name_鶏チリソース</th>
+      <th>name_鶏肉とカシューナッツ炒め</th>
+      <th>name_鶏肉のカレー唐揚</th>
+      <th>name_鶏肉の山賊焼き</th>
+      <th>event_キャリアアップ支援セミナー</th>
+      <th>event_ママの会</th>
+      <th>weather_快晴</th>
+      <th>weather_晴れ</th>
+      <th>weather_曇</th>
+      <th>weather_薄曇</th>
+      <th>weather_雨</th>
+      <th>weather_雪</th>
+      <th>weather_雷電</th>
+      <th>period_上旬</th>
+      <th>period_中旬</th>
+      <th>period_下旬</th>
+    </tr>
+    <tr>
+      <th>datetime</th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>2014-01-09</th>
+      <td>129</td>
+      <td>1</td>
+      <td>435.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>10.9</td>
+      <td>1</td>
+      <td>9</td>
+      <td>1.1</td>
+      <td>9.333333</td>
+      <td>0.112245</td>
+      <td>0</td>
+      <td>1</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>1</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>1</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>1</td>
+      <td>0</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>2014-01-10</th>
+      <td>87</td>
+      <td>0</td>
+      <td>440.0</td>
+      <td>1.0</td>
+      <td>0.0</td>
+      <td>5.1</td>
+      <td>1</td>
+      <td>10</td>
+      <td>-5.8</td>
+      <td>8.600000</td>
+      <td>-0.532110</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>1</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>1</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>1</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>1</td>
+      <td>0</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>2014-01-14</th>
+      <td>129</td>
+      <td>1</td>
+      <td>376.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>5.8</td>
+      <td>1</td>
+      <td>14</td>
+      <td>0.7</td>
+      <td>7.266667</td>
+      <td>0.137255</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>1</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>1</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>1</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>1</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>2014-01-15</th>
+      <td>134</td>
+      <td>0</td>
+      <td>450.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>2.9</td>
+      <td>1</td>
+      <td>15</td>
+      <td>-2.9</td>
+      <td>4.600000</td>
+      <td>-0.500000</td>
+      <td>0</td>
+      <td>0</td>
+      <td>1</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>1</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>1</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>1</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>2014-01-16</th>
+      <td>107</td>
+      <td>0</td>
+      <td>415.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>7.0</td>
+      <td>1</td>
+      <td>16</td>
+      <td>4.1</td>
+      <td>5.233333</td>
+      <td>1.413793</td>
+      <td>0</td>
+      <td>1</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>1</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>1</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>1</td>
+      <td>0</td>
+    </tr>
+  </tbody>
+</table>
+</div></div>
+</div>
+</div>
+<div class="section" id="最後に、出来たデータをもう一度眺める">
+<h2><span class="section-number">7.9. </span>最後に、出来たデータをもう一度眺める<a class="headerlink" href="#最後に、出来たデータをもう一度眺める" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[121]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="nb">print</span><span class="p">(</span><span class="n">dummy_df</span><span class="o">.</span><span class="n">isnull</span><span class="p">()</span><span class="o">.</span><span class="n">sum</span><span class="p">())</span>
+<span class="n">dummy_df</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+sales            0
+soldout          0
+kcal             0
+payday           0
+precipitation    0
+                ..
+weather_雪        0
+weather_雷電       0
+period_上旬        0
+period_中旬        0
+period_下旬        0
+Length: 157, dtype: int64
+</pre></div></div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[121]:
+</pre></div>
+</div>
+<div class="output_area rendered_html docutils container">
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>sales</th>
+      <th>soldout</th>
+      <th>kcal</th>
+      <th>payday</th>
+      <th>precipitation</th>
+      <th>temperature</th>
+      <th>month</th>
+      <th>day</th>
+      <th>temperature_diff</th>
+      <th>temperature_rolling_mean</th>
+      <th>temperature_pct_change</th>
+      <th>week_月</th>
+      <th>week_木</th>
+      <th>week_水</th>
+      <th>week_火</th>
+      <th>week_金</th>
+      <th>name_いか天ぷら</th>
+      <th>name_かじきの甘辛煮</th>
+      <th>name_きのこソースハンバーグ</th>
+      <th>name_さわら焼味噌掛け</th>
+      <th>name_さんま辛味焼</th>
+      <th>name_たっぷりベーコンフライ</th>
+      <th>name_ぶりレモンペッパー焼き</th>
+      <th>name_ますのマスタードソース</th>
+      <th>name_アジ唐揚げ南蛮ソース</th>
+      <th>name_エビフライ</th>
+      <th>name_カレイの唐揚げ</th>
+      <th>name_カレイ唐揚げ 甘酢あん</th>
+      <th>name_カレイ唐揚げ夏野菜あん</th>
+      <th>name_カレイ唐揚げ野菜あんかけ</th>
+      <th>name_カレイ唐揚げ野菜餡かけ</th>
+      <th>name_カレイ野菜あんかけ</th>
+      <th>name_キスと野菜の天ぷら</th>
+      <th>name_キーマカレー</th>
+      <th>name_ゴーヤチャンプルー</th>
+      <th>name_サバ焼味噌掛け</th>
+      <th>name_サーモンのムニエル2色ソース</th>
+      <th>name_サーモンフライ・タルタル</th>
+      <th>name_ジャンボチキンカツ</th>
+      <th>name_ジューシーメンチカツ</th>
+      <th>name_タンドリーチキン</th>
+      <th>name_チキンのコーンクリーム焼き</th>
+      <th>name_チキンの辛味噌焼き</th>
+      <th>name_チキンクリームシチュー</th>
+      <th>name_チキンステーキ・きのこソース</th>
+      <th>name_チキンフリカッセ</th>
+      <th>name_チキン南蛮</th>
+      <th>name_チキン香草焼きマスタードソース</th>
+      <th>name_チャプチェ</th>
+      <th>name_チンジャオロース</th>
+      <th>name_チーズハンバーグ</th>
+      <th>name_チーズメンチカツ</th>
+      <th>name_チーズ入りハンバーグ</th>
+      <th>name_チーズ入りメンチカツ</th>
+      <th>name_ハンバーグカレーソース</th>
+      <th>name_ハンバーグケッチャップソース</th>
+      <th>name_ハンバーグデミソース</th>
+      <th>name_ハンバーグ和風きのこソース</th>
+      <th>name_ハンバーグ（デミきのこバター）</th>
+      <th>name_バーベキューチキン</th>
+      <th>name_ビーフカレー</th>
+      <th>name_ビーフシチュー</th>
+      <th>name_ビーフストロガノフ</th>
+      <th>name_ビーフトマト煮</th>
+      <th>name_プルコギ</th>
+      <th>name_ホタテクリ―ムシチュー</th>
+      <th>name_ボローニャ風カツ</th>
+      <th>name_ポークソテー韓国ソース</th>
+      <th>name_ポークハヤシ</th>
+      <th>name_ポーク生姜焼き</th>
+      <th>name_マーボ茄子</th>
+      <th>name_マーボ豆腐</th>
+      <th>name_メダイ照り焼</th>
+      <th>name_メンチカツ</th>
+      <th>name_ロース甘味噌焼き</th>
+      <th>name_八宝菜</th>
+      <th>name_厚切イカフライ</th>
+      <th>name_厚切ハムカツ</th>
+      <th>name_名古屋味噌カツ</th>
+      <th>name_和風ソースハンバーグ</th>
+      <th>name_和風ハンバーグ</th>
+      <th>name_回鍋肉</th>
+      <th>name_手作りひれかつ</th>
+      <th>name_手作りひれかつとカレー</th>
+      <th>name_手作りチキンカツ</th>
+      <th>name_手作りトンカツ</th>
+      <th>name_手作りロースカツ</th>
+      <th>name_洋食屋さんのメンチカツ</th>
+      <th>name_海老クリーミ―クノーデル</th>
+      <th>name_海老フライとホタテ串カツ</th>
+      <th>name_海老フライタルタル</th>
+      <th>name_炊き込みご飯</th>
+      <th>name_牛すき焼き風</th>
+      <th>name_牛カルビ焼き肉</th>
+      <th>name_牛スキヤキ</th>
+      <th>name_牛丼風煮</th>
+      <th>name_牛肉すき焼き風</th>
+      <th>name_牛肉コロッケ</th>
+      <th>name_牛肉ニンニクの芽炒め</th>
+      <th>name_牛肉筍煮</th>
+      <th>name_白身魚のマスタード焼き</th>
+      <th>name_白身魚の南部焼き</th>
+      <th>name_白身魚フライ</th>
+      <th>name_白身魚ムニエル</th>
+      <th>name_白身魚唐揚げ野菜あんかけ</th>
+      <th>name_白身魚唐揚げ野菜餡かけ</th>
+      <th>name_筑前煮</th>
+      <th>name_肉じゃが</th>
+      <th>name_肉団子のシチュー</th>
+      <th>name_肉団子クリームシチュー</th>
+      <th>name_親子煮</th>
+      <th>name_豚すき焼き</th>
+      <th>name_豚の冷しゃぶ</th>
+      <th>name_豚キムチ炒め</th>
+      <th>name_豚ロースのピザ風チーズ焼き</th>
+      <th>name_豚冷シャブ野菜添え</th>
+      <th>name_豚味噌メンチカツ</th>
+      <th>name_豚肉と玉子の炒め</th>
+      <th>name_豚肉と茄子のピリ辛炒め</th>
+      <th>name_豚肉のマスタード焼き</th>
+      <th>name_豚肉の生姜焼き</th>
+      <th>name_豚肉の胡麻シャブ</th>
+      <th>name_越冬キャベツのメンチカツ</th>
+      <th>name_酢豚</th>
+      <th>name_酢豚orカレー</th>
+      <th>name_青梗菜牛肉炒め</th>
+      <th>name_青椒肉絲</th>
+      <th>name_鶏のから揚げねぎ塩炒めソース</th>
+      <th>name_鶏のから揚げスイートチリソース</th>
+      <th>name_鶏のカッシュナッツ炒め</th>
+      <th>name_鶏のトマトシチュー</th>
+      <th>name_鶏のピリ辛焼き</th>
+      <th>name_鶏のレモンペッパー焼orカレー</th>
+      <th>name_鶏の味噌漬け焼き</th>
+      <th>name_鶏の唐揚げ</th>
+      <th>name_鶏の唐揚げおろしソース</th>
+      <th>name_鶏の塩から揚げ</th>
+      <th>name_鶏の天ぷら</th>
+      <th>name_鶏の照り焼きマスタード</th>
+      <th>name_鶏の照り焼きマヨ</th>
+      <th>name_鶏の親子煮</th>
+      <th>name_鶏チリソース</th>
+      <th>name_鶏肉とカシューナッツ炒め</th>
+      <th>name_鶏肉のカレー唐揚</th>
+      <th>name_鶏肉の山賊焼き</th>
+      <th>event_キャリアアップ支援セミナー</th>
+      <th>event_ママの会</th>
+      <th>weather_快晴</th>
+      <th>weather_晴れ</th>
+      <th>weather_曇</th>
+      <th>weather_薄曇</th>
+      <th>weather_雨</th>
+      <th>weather_雪</th>
+      <th>weather_雷電</th>
+      <th>period_上旬</th>
+      <th>period_中旬</th>
+      <th>period_下旬</th>
+    </tr>
+    <tr>
+      <th>datetime</th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>2014-01-09</th>
+      <td>129</td>
+      <td>1</td>
+      <td>435.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>10.9</td>
+      <td>1</td>
+      <td>9</td>
+      <td>1.1</td>
+      <td>9.333333</td>
+      <td>0.112245</td>
+      <td>0</td>
+      <td>1</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>1</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>1</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>1</td>
+      <td>0</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>2014-01-10</th>
+      <td>87</td>
+      <td>0</td>
+      <td>440.0</td>
+      <td>1.0</td>
+      <td>0.0</td>
+      <td>5.1</td>
+      <td>1</td>
+      <td>10</td>
+      <td>-5.8</td>
+      <td>8.600000</td>
+      <td>-0.532110</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>1</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>1</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>1</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>1</td>
+      <td>0</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>2014-01-14</th>
+      <td>129</td>
+      <td>1</td>
+      <td>376.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>5.8</td>
+      <td>1</td>
+      <td>14</td>
+      <td>0.7</td>
+      <td>7.266667</td>
+      <td>0.137255</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>1</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>1</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>1</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>1</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>2014-01-15</th>
+      <td>134</td>
+      <td>0</td>
+      <td>450.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>2.9</td>
+      <td>1</td>
+      <td>15</td>
+      <td>-2.9</td>
+      <td>4.600000</td>
+      <td>-0.500000</td>
+      <td>0</td>
+      <td>0</td>
+      <td>1</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>1</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>1</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>1</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>2014-01-16</th>
+      <td>107</td>
+      <td>0</td>
+      <td>415.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>7.0</td>
+      <td>1</td>
+      <td>16</td>
+      <td>4.1</td>
+      <td>5.233333</td>
+      <td>1.413793</td>
+      <td>0</td>
+      <td>1</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>1</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>1</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>1</td>
+      <td>0</td>
+    </tr>
+  </tbody>
+</table>
+</div></div>
+</div>
+</div>
+<div class="section" id="参照">
+<h2><span class="section-number">7.10. </span>参照<a class="headerlink" href="#参照" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<ul class="simple">
+<li><p><a class="reference external" href="https://qiita.com/ysdyt/items/9ccca82fc5b504e7913a">データ分析で頻出のPandas基本操作</a></p></li>
+</ul>
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+      
+        <a href="graph.html" class="btn btn-neutral float-left" title="6. グラフを表示する" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2019, k2works
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

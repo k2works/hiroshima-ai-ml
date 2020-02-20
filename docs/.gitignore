@@ -2,7 +2,6 @@
 node_modules
 .asciidoctor
 .ipynb_checkpoints
-build
 .gradle
 .settings
 .project

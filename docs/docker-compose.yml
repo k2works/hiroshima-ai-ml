@@ -2,7 +2,7 @@ version: '3'
 
 services:
   sphinx:
-    build: ./jupyter
+    build: ./src/jupyter
     ports:
       - 8000:8000
     volumes:
@@ -11,10 +11,10 @@ services:
     command: ["make", "livehtml"]
 
   jupyter:
-    build: ./jupyter
+    build: ./src/jupyter
     ports:
       - 9999:9999
     volumes:
-      - ./jupyter:/work
+      - ./src/jupyter:/work
     working_dir: '/work'
     command: ["jupyter", "notebook", "--port", "9999", "--ip=0.0.0.0", "--allow-root" ]

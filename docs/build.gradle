@@ -25,7 +25,7 @@ asciidoctor {
     sourceDir = file('./src')
     requires = ['asciidoctor-diagram']
     backends = ['html5']
-    outputDir = file('./')
+    outputDir = file('./build')
     separateOutputDirs = false
 }
 

@@ -4,7 +4,7 @@
 # You can set these variables from the command line.
 SPHINXOPTS    =
 SPHINXBUILD   = sphinx-build
-SOURCEDIR     = jupyter
+SOURCEDIR     = src
 BUILDDIR      = build
 GH_PAGES_SOURCES = source Makefile
 
@@ -20,7 +20,7 @@ help:
 	@$(SPHINXBUILD) -M $@ "$(SOURCEDIR)" "$(BUILDDIR)" $(SPHINXOPTS) $(O)
 
 livehtml:
-	sphinx-autobuild -b html $(SOURCEDIR) $(BUILDDIR)/html -H 0.0.0.0
+	sphinx-autobuild -b html $(SOURCEDIR)/jupyter $(BUILDDIR)/html -H 0.0.0.0
 
 gh-pages:
 	git checkout gh-pages
