@@ -10,7 +10,8 @@ Welcome to ToyBox documentation!
    :caption: Kaggle
    :numbered:
 
-   /titanic/index
+   /kaggle/titanic/index
+   /kaggle/titanic/tutorial
 
 .. toctree::
    :maxdepth: 1
